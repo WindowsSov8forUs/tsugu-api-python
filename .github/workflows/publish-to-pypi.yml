@@ -30,3 +30,4 @@ jobs:
       with:
         username: __token__
         password: ${{ secrets.PYPI_TOKEN }}
+        skip_existing: true
