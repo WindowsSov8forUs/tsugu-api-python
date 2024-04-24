@@ -71,6 +71,37 @@ async def gacha_simulate(server_mode: _Server, gacha_id: Optional[int] = None) -
         ).post()
     ).json()
 
+async def search_player(player_id: int, server: _Server) -> _Response:
+    '''查询玩家状态
+
+    参数:
+        player_id (int): 玩家 ID
+        server (_Server): 服务器
+
+    返回:
+        _Response: 响应信息
+    '''
+    
+    # 构建 URL
+    url = settings.backend_url + '/searchPlayer'
+    
+    # 构建数据
+    data = {
+        'playerId': player_id,
+        'server': server,
+        'useEasyBG': settings.use_easy_bg,
+        'compress': settings.compress
+    }
+    
+    # 发送请求
+    return await (
+            await Api(
+            url,
+            proxy=settings.backend_proxy,
+            data=data
+        ).post()
+    ).json()
+
 async def search_gacha(default_servers: list[_Server], gacha_id: int) -> _Response:
     '''查询卡池
 

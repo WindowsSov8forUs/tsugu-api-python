@@ -21,6 +21,7 @@ from ._tsugu import search_card as search_card
 from ._tsugu import search_song as search_song
 from ._tsugu import search_event as search_event
 from ._tsugu import search_gacha as search_gacha
+from ._tsugu import search_player as search_player
 from ._tsugu import gacha_simulate as gacha_simulate
 from ._tsugu import search_character as search_character
 from ._tsugu import get_card_illustration as get_card_illustration
