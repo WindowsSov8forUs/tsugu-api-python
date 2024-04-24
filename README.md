@@ -8,6 +8,30 @@ _✨ Python 编写的 [TsuguBanGDreamBot](https://github.com/Yamamoto-2/tsugu-ba
 
 </div>
 
+<p align="center">
+
+<a href="https://github.com/Yamamoto-2/tsugu-bangdream-bot">
+  <img src="https://img.shields.io/badge/tsugu bangdream bot-v1 api-FFEE88" alt="license">
+</a>
+
+<a href="https://github.com/Yamamoto-2/tsugu-bangdream-bot">
+  <img src="https://img.shields.io/badge/tsugu bangdream bot-v2 api-FFEE88" alt="license">
+</a>
+
+<a href="https://github.com/WindowsSov8forUs/tsugu-api-python">
+  <img src="https://img.shields.io/github/v/release/WindowsSov8forUs/tsugu-api-python" alt="Latest Release Version">
+</a>
+
+<a href="https://github.com/WindowsSov8forUs/tsugu-api-python/blob/main/LICENSE">
+  <img src="https://img.shields.io/github/license/WindowsSov8forUs/tsugu-api-python" alt="License">
+</a>
+
+<a href="https://www.python.org/downloads/">
+  <img src="https://img.shields.io/pypi/pyversions/tsugu-api-python" alt="Python Version">
+</a>
+
+</p>
+
 ## 说明
 
 这是一个用 Python 编写的调用 [TsuguBanGDreamBot](https://github.com/Yamamoto-2/tsugu-bangdream-bot?tab=readme-ov-file) 相关各种功能 API 的库，包括绝大部分 Tsugu 提供的功能。使用本 API 库提供的方法可以实现绝大部分功能，而搭配 [bestdori-api](https://github.com/WindowsSov8forUs/bestdori-api) 可以实现用户绑定等其他功能。
