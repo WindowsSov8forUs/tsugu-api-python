@@ -16,8 +16,7 @@ def get_card_illustration(card_id: int) -> _Response:
     '''获取卡面
 
     参数:
-        platform (str): 平台名称
-        user_id (str): 用户 ID
+        card_id (int): 卡片 ID
 
     返回:
         _Response: 响应信息

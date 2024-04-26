@@ -55,7 +55,7 @@ class _QueryResult(TypedDict):
     data: Union[str, list[_CarData]]
 
 class _SubmitResult(TypedDict):
-    '''`submit_room_number` 响应结果'''
+    '''`/station/submitRoomNumber` 响应结果'''
     status: _Status
     data: Union[str, list[_CarData]]
 
