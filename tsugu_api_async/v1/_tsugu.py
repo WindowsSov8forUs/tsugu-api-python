@@ -33,7 +33,7 @@ async def get_card_illustration(card_id: int) -> _Response:
     
     # 发送请求
     return await (
-            await Api(
+        await Api(
             url,
             proxy=settings.backend_proxy,
             data=data
@@ -64,7 +64,7 @@ async def gacha_simulate(server_mode: _Server, gacha_id: Optional[int] = None) -
     
     # 发送请求
     return await (
-            await Api(
+        await Api(
             url,
             proxy=settings.backend_proxy,
             data=data
@@ -95,7 +95,7 @@ async def search_player(player_id: int, server: _Server) -> _Response:
     
     # 发送请求
     return await (
-            await Api(
+        await Api(
             url,
             proxy=settings.backend_proxy,
             data=data
@@ -126,7 +126,7 @@ async def search_gacha(default_servers: list[_Server], gacha_id: int) -> _Respon
     
     # 发送请求
     return await (
-            await Api(
+        await Api(
             url,
             proxy=settings.backend_proxy,
             data=data
@@ -157,7 +157,40 @@ async def search_event(default_servers: list[_Server], text: str) -> _Response:
     
     # 发送请求
     return await (
-            await Api(
+        await Api(
+            url,
+            proxy=settings.backend_proxy,
+            data=data
+        ).post()
+    ).json()
+
+async def event_stage(server: _Server, meta: bool = False, event_id: Optional[int] = None) -> _Response:
+    '''查询团队 LIVE 佳节活动舞台数据
+
+    参数:
+        server (_Server): 服务器
+        meta (bool): 是否携带歌曲分数表
+        event_id (int): 活动 ID
+
+    返回:
+        _Response: 响应信息
+    '''
+    
+    # 构建 URL
+    url = settings.backend_url + '/eventStage'
+    
+    # 构建数据
+    data = {
+        'server': server,
+        'meta': meta,
+        'compress': settings.compress
+    }
+    if event_id:
+        data['eventId'] = event_id
+    
+    # 发送请求
+    return await (
+        await Api(
             url,
             proxy=settings.backend_proxy,
             data=data
@@ -188,7 +221,7 @@ async def search_song(default_servers: list[_Server], text: str) -> _Response:
     
     # 发送请求
     return await (
-            await Api(
+        await Api(
             url,
             proxy=settings.backend_proxy,
             data=data
@@ -218,7 +251,7 @@ async def song_meta(default_servers: list[_Server], server: _Server) -> _Respons
     
     # 发送请求
     return await (
-            await Api(
+        await Api(
             url,
             proxy=settings.backend_proxy,
             data=data
@@ -248,7 +281,7 @@ async def search_character(default_servers: list[_Server], text: str) -> _Respon
     
     # 发送请求
     return await (
-            await Api(
+        await Api(
             url,
             proxy=settings.backend_proxy,
             data=data
@@ -280,7 +313,7 @@ async def song_chart(default_servers: list[_Server], song_id: int, difficulty_te
     
     # 发送请求
     return await (
-            await Api(
+        await Api(
             url,
             proxy=settings.backend_proxy,
             data=data
@@ -311,7 +344,7 @@ async def ycx_all(server: _Server, event_id: Optional[int] = None) -> _Response:
     
     # 发送请求
     return await (
-            await Api(
+        await Api(
             url,
             proxy=settings.backend_proxy,
             data=data
@@ -344,7 +377,7 @@ async def ycx(server: _Server, tier: int, event_id: Optional[int] = None) -> _Re
     
     # 发送请求
     return await (
-            await Api(
+        await Api(
             url,
             proxy=settings.backend_proxy,
             data=data
@@ -377,7 +410,7 @@ async def lsycx(server: _Server, tier: int, event_id: Optional[int] = None) -> _
     
     # 发送请求
     return await (
-            await Api(
+        await Api(
             url,
             proxy=settings.backend_proxy,
             data=data
@@ -405,7 +438,7 @@ async def room_list(room_list: list[_CarData]) -> _Response:
     
     # 发送请求
     return await (
-            await Api(
+        await Api(
             url,
             proxy=settings.backend_proxy,
             data=data
@@ -436,7 +469,7 @@ async def search_card(default_servers: list[_Server], text: str) -> _Response:
     
     # 发送请求
     return await (
-            await Api(
+        await Api(
             url,
             proxy=settings.backend_proxy,
             data=data
@@ -455,7 +488,7 @@ async def station_query_all_room() -> _QueryResult:
     
     # 发送请求
     return await (
-            await Api(
+        await Api(
             url,
             proxy=settings.backend_proxy
         ).get()
@@ -496,7 +529,7 @@ async def station_submit_room_number(
     
     # 发送请求
     return await (
-            await Api(
+        await Api(
             url,
             proxy=settings.backend_proxy,
             data=data

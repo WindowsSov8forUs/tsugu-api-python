@@ -153,6 +153,37 @@ def search_event(default_servers: list[_Server], text: str) -> _Response:
         data=data
     ).post().json()
 
+def event_stage(server: _Server, meta: bool = False, event_id: Optional[int] = None) -> _Response:
+    '''查询团队 LIVE 佳节活动舞台数据
+
+    参数:
+        server (_Server): 服务器
+        meta (bool): 是否携带歌曲分数表
+        event_id (int): 活动 ID
+
+    返回:
+        _Response: 响应信息
+    '''
+    
+    # 构建 URL
+    url = settings.backend_url + '/eventStage'
+    
+    # 构建数据
+    data = {
+        'server': server,
+        'meta': meta,
+        'compress': settings.compress
+    }
+    if event_id:
+        data['eventId'] = event_id
+    
+    # 发送请求
+    return Api(
+        url,
+        proxy=settings.backend_proxy,
+        data=data
+    ).post().json()
+
 def search_song(default_servers: list[_Server], text: str) -> _Response:
     '''查询歌曲
 
