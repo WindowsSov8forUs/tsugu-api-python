@@ -1,3 +1,5 @@
+from httpx import Response
+
 from tsugu_api_async import settings
 from tsugu_api_async._network import Api
 from tsugu_api_async._typing import _Server, _Response
@@ -33,13 +35,13 @@ async def _v2_post_request(
     }
     
     # 发送请求
-    return await (
-        await Api(
-            url,
-            proxy=settings.backend_proxy,
-            data=data
-        ).post()
-    ).json()
+    response = await Api(
+        url,
+        proxy=settings.backend_proxy,
+        data=data
+    ).post()
+    if isinstance(response, Response): return response.json()
+    return await response.json()
 
 async def card_illustration(
     text: str

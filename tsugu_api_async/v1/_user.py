@@ -1,4 +1,4 @@
-from httpx import HTTPStatusError
+from httpx import Response, HTTPStatusError
 
 from tsugu_api_async import settings
 from tsugu_api_async._network import Api
@@ -30,13 +30,13 @@ async def get_user_data(platform: str, user_id: str) -> _UserDataResult:
     }
     
     # 发送请求
-    return await (
-        await Api(
-            url,
-            proxy=settings.userdata_backend_proxy,
-            data=data
-        ).post()
-    ).json()
+    response = await Api(
+        url,
+        proxy=settings.userdata_backend_proxy,
+        data=data
+    ).post()
+    if isinstance(response, Response): return response.json()
+    return await response.json()
 
 async def bind_player_request(
     platform: str,
@@ -69,13 +69,13 @@ async def bind_player_request(
     
     # 发送请求
     try:
-        return await (
-            await Api(
-                url,
-                proxy=settings.userdata_backend_proxy,
-                data=data
-            ).post()
-        ).json()
+        response = await Api(
+            url,
+            proxy=settings.userdata_backend_proxy,
+            data=data
+        ).post()
+        if isinstance(response, Response): return response.json()
+        return await response.json()
     except HTTPStatusError as exception:
         if exception.response.status_code == 400:
             return exception.response.json()
@@ -116,13 +116,13 @@ async def bind_player_verification(
     
     # 发送请求
     try:
-        return await (
-            await Api(
-                url,
-                proxy=settings.userdata_backend_proxy,
-                data=data
-            ).post()
-        ).json()
+        response = await Api(
+            url,
+            proxy=settings.userdata_backend_proxy,
+            data=data
+        ).post()
+        if isinstance(response, Response): return response.json()
+        return await response.json()
     except HTTPStatusError as exception:
         if exception.response.status_code == 400:
             return exception.response.json()
@@ -153,13 +153,13 @@ async def set_car_forwarding(platform: str, user_id: str, status: bool) -> _Resu
     
     # 发送请求
     try:
-        return await (
-            await Api(
-                url,
-                proxy=settings.userdata_backend_proxy,
-                data=data
-            ).post()
-        ).json()
+        response = await Api(
+            url,
+            proxy=settings.userdata_backend_proxy,
+            data=data
+        ).post()
+        if isinstance(response, Response): return response.json()
+        return await response.json()
     except HTTPStatusError as exception:
         if exception.response.status_code == 400:
             return exception.response.json()
@@ -190,13 +190,13 @@ async def set_default_server(platform: str, user_id: str, text: str) -> _Result:
     
     # 发送请求
     try:
-        return await (
-            await Api(
-                url,
-                proxy=settings.userdata_backend_proxy,
-                data=data
-            ).post()
-        ).json()
+        response = await Api(
+            url,
+            proxy=settings.userdata_backend_proxy,
+            data=data
+        ).post()
+        if isinstance(response, Response): return response.json()
+        return await response.json()
     except HTTPStatusError as exception:
         if exception.response.status_code == 400:
             return exception.response.json()
@@ -227,13 +227,13 @@ async def set_server_mode(platform: str, user_id: str, text: str) -> _Result:
     
     # 发送请求
     try:
-        return await (
-            await Api(
-                url,
-                proxy=settings.userdata_backend_proxy,
-                data=data
-            ).post()
-        ).json()
+        response = await Api(
+            url,
+            proxy=settings.userdata_backend_proxy,
+            data=data
+        ).post()
+        if isinstance(response, Response): return response.json()
+        return await response.json()
     except HTTPStatusError as exception:
         if exception.response.status_code == 400:
             return exception.response.json()
