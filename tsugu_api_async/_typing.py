@@ -82,7 +82,7 @@ class _UserData(TypedDict):
 class _UserDataResult(TypedDict):
     '''`get_user_data` 响应结果'''
     status: _Status
-    data: Union[str, list[_UserData]]
+    data: Union[str, _UserData]
 
 class _VerifyCode(TypedDict):
     '''验证码'''
