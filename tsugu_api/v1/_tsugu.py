@@ -37,11 +37,12 @@ def get_card_illustration(card_id: int) -> _Response:
         data=data
     ).post().json()
 
-def gacha_simulate(server_mode: _Server, gacha_id: Optional[int] = None) -> _Response:
+def gacha_simulate(server_mode: _Server, times: Optional[int] = None, gacha_id: Optional[int] = None) -> _Response:
     '''模拟抽卡
 
     参数:
         server_mode (_Server): 服务器模式
+        times (int): 抽卡次数
         gacha_id (int): 卡池 ID
 
     返回:
@@ -56,6 +57,8 @@ def gacha_simulate(server_mode: _Server, gacha_id: Optional[int] = None) -> _Res
         'server_mode': server_mode,
         'compress': settings.compress
     }
+    if times:
+        data['times'] = times
     if gacha_id:
         data['gachaId'] = gacha_id
     
