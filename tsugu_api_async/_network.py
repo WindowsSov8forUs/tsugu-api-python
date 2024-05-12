@@ -87,7 +87,7 @@ class Api:
                     params=self.params,
                     data=cast(dict, dumps(self.data)) if self.data is not None else self.data,
                     headers=headers,
-                    proxy=proxies
+                    proxy=settings.proxy if len(settings.proxy) > 0 else None,
                 )
         
         # 处理接收到的响应
