@@ -4,9 +4,9 @@ from enum import StrEnum
 from typing import Optional
 
 class Client(StrEnum):
-    HTTPX: str = 'httpx'
+    HTTPX = 'httpx'
     '''使用 `httpx`'''
-    AIO_HTTP: str = 'aiohttp'
+    AIO_HTTP = 'aiohttp'
     '''使用 `aiohttp`'''
 
 client: Client = Client.HTTPX
