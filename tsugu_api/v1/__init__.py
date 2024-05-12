@@ -17,6 +17,7 @@ from ._tsugu import ycx_all as ycx_all
 from ._tsugu import room_list as room_list
 from ._tsugu import song_meta as song_meta
 from ._tsugu import song_chart as song_chart
+from ._tsugu import event_stage as event_stage
 from ._tsugu import search_card as search_card
 from ._tsugu import search_song as search_song
 from ._tsugu import search_event as search_event
