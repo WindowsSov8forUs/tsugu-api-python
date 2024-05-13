@@ -12,7 +12,7 @@ from typing import (
     NotRequired
 )
 
-_Server: TypeAlias = Literal[0, 1, 2, 3, 4]
+_ServerId: TypeAlias = Literal[0, 1, 2, 3, 4]
 '''
 服务器 ID
 
@@ -23,6 +23,19 @@ _Server: TypeAlias = Literal[0, 1, 2, 3, 4]
     3: 国服
     4: 韩服
 '''
+_ServerName: TypeAlias = Literal['jp', 'en', 'tw', 'cn', 'kr']
+'''
+服务器名
+
+值:
+    'jp': 日服
+    'en': 国际服
+    'tw': 台服
+    'cn': 国服
+    'kr': 韩服
+'''
+_Server: TypeAlias = Union[_ServerId, _ServerName]
+'''服务器'''
 
 class _Data(TypedDict):
     '''API 单个响应数据'''
@@ -31,62 +44,81 @@ class _Data(TypedDict):
 
 _Response: TypeAlias = list[_Data]
 
-class _CarData(TypedDict):
-    '''车牌数据'''
-    number: int
-    rawMessage: str
-    source: str
-    userId: int
-    time: int
-    avanter: str
-    userName: str
+_DifficultyText: TypeAlias = Literal['easy', 'normal', 'hard', 'expert', 'special']
+'''难度名'''
+
+class _Player(TypedDict):
+    id: int
+    server: _Server
 
 _Status: TypeAlias = Literal['success', 'failure']
 '''响应状态'''
 
-class _Result(TypedDict):
-    '''响应结果'''
+class _SubmitResponse(TypedDict):
+    '''`/station/submitRoomNumber` 响应结果'''
     status: _Status
     data: str
 
-class _QueryResult(TypedDict):
+class _Room(TypedDict):
+    '''房间数据'''
+    number: int
+    rawMessage: str
+    source: str
+    userId: str
+    time: int
+    player: _Player
+    avanter: NotRequired[str]
+    userName: NotRequired[str]
+
+class _QueryResponse(TypedDict):
     '''`/station/queryAllRoom` 响应结果'''
     status: _Status
-    data: Union[str, list[_CarData]]
+    data: Union[str, list[_Room]]
 
-class _SubmitResult(TypedDict):
-    '''`/station/submitRoomNumber` 响应结果'''
-    status: _Status
-    data: Union[str, list[_CarData]]
-
-class _ServerData(TypedDict):
+class _TsuguUserServer(TypedDict):
     '''服务器数据'''
     playerId: int
-    bindingStatus: int
+    bindingStatus: Literal[0, 1, 2]
+    verifyCode: NotRequired[int]
 
-class _UserData(TypedDict):
+class _TsuguUser(TypedDict):
     '''用户数据'''
-    _id: NotRequired[str]
     user_id: str
     platform: str
     server_mode: _Server
     default_server: list[_Server]
     car: bool
-    server_list: list[_ServerData]
+    server_list: list[_TsuguUserServer]
 
-class _UserDataResult(TypedDict):
-    '''`get_user_data` 响应结果'''
+class _UserDataResponse(TypedDict):
+    '''`/user/getUserData` 响应结果'''
     status: _Status
-    data: Union[str, _UserData]
+    data: Union[str, _TsuguUser]
+
+class _Update(TypedDict):
+    '''更新数据'''
+    user_id: NotRequired[str]
+    platform: NotRequired[str]
+    server_mode: NotRequired[_ServerId]
+    default_server: NotRequired[list[_ServerId]]
+    car: NotRequired[bool]
+    server_list: NotRequired[list[_TsuguUserServer]]
+
+class _UpdateResponse(TypedDict):
+    '''`/user/changeUserData` 响应结果'''
+    status: _Status
+    data: NotRequired[str]
 
 class _VerifyCode(TypedDict):
     '''验证码'''
     verifyCode: int
 
 class _BindResponse(TypedDict):
-    '''绑定响应'''
+    '''`/user/bindPlayerRequest` 绑定响应'''
     status: _Status
     data: Union[str, _VerifyCode]
 
-_Difficulty: TypeAlias = Literal['easy', 'normal', 'hard', 'expert', 'special']
-'''难度名'''
+class _VerificationResponse(TypedDict):
+    '''`/user/bindPlayerVerification` 响应结果'''
+    status: _Status
+    data: str
