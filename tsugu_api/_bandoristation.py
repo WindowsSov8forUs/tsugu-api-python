@@ -1,12 +1,10 @@
-from httpx import Response
-
-from tsugu_api_async import settings
-from tsugu_api_async._network import Api
-from tsugu_api_async.exception import RoomSubmitFailure
+from tsugu_api import settings
+from tsugu_api._network import Api
+from tsugu_api.exception import RoomSubmitFailure
 
 BANDORI_STATION_URL = 'https://api.bandoristation.com/index.php'
 
-async def submit_room_number(number: int, user_id: str, raw_message: str, source: str, token: str) -> None:
+def submit_room_number(number: int, user_id: str, raw_message: str, source: str, token: str) -> None:
     '''上传车牌号
 
     参数:
@@ -28,12 +26,9 @@ async def submit_room_number(number: int, user_id: str, raw_message: str, source
     }
     
     # 发送请求
-    response = await Api(
-            BANDORI_STATION_URL,
-            proxy=settings.backend_proxy,
-            params=params
-    ).get()
-    if isinstance(response, Response): response = response.json()
-    else: response = await response.json()
+    response = Api(
+        BANDORI_STATION_URL,
+        proxy=settings.backend_proxy
+    ).get(params).json()
     if response['status'] == 'failure':
         raise RoomSubmitFailure(response['response'])

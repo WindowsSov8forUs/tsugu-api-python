@@ -4,7 +4,7 @@
 from json import dumps
 from typing import Any, Literal, Optional, cast
 
-from httpx import Response, Request, Client
+from httpx import Client, Request, Response, HTTPStatusError
 
 from . import settings
 
@@ -19,35 +19,31 @@ class Api:
     '''请求的 API 地址'''
     proxy: bool
     '''是否使用代理服务器'''
-    params: Optional[dict[str, Any]]
-    '''请求的参数'''
-    data: Optional[dict[str, Any]]
-    '''请求的数据'''
     # 初始化
     def __init__(
         self,
         url: str,
-        proxy: bool,
-        *,
-        params: Optional[dict[str, Any]]=None,
-        data: Optional[dict[str, Any]]=None
+        proxy: bool
     ) -> None:
         '''初始化'''
         self.url = url
         self.proxy = proxy
-        self.params = params
-        self.data = data
         return
     
     # 请求发送
     def _request(
         self,
         method: Literal['get', 'post'],
+        *,
+        params: Optional[dict[str, Any]]=None,
+        data: Optional[dict[str, Any]]=None
     ) -> Response:
         '''请求发送
 
         参数:
             method (Literal[&#39;get&#39;, &#39;post&#39;]): API 调用方法
+            params (Optional[dict[str, Any]]): 请求的参数
+            data (Optional[dict[str, Any]]): 请求的数据
 
         返回:
             Response: 收到的响应
@@ -62,10 +58,11 @@ class Api:
         request = Request(
             method,
             self.url,
-            params=self.params,
-            data=cast(dict, dumps(self.data)) if self.data is not None else self.data,
+            params=params,
+            data=cast(dict, dumps(data)) if data is not None else data,
             headers=headers
         )
+        print(data)
         # 构建代理服务器字典
         if self.proxy:
             proxies = settings._get_proxy()
@@ -77,21 +74,33 @@ class Api:
             response = client.send(request)
         
         # 处理接收到的响应
-        response.raise_for_status()
+        try:
+            response.raise_for_status()
+        except HTTPStatusError as exception:
+            if exception.response.status_code == 400:
+                return response
+            else:
+                raise exception
         return response
     
-    def post(self) -> Response:
+    def post(self, data: Optional[dict[str, Any]]=None) -> Response:
         '''发送 POST 请求
 
-        返回:
-            Response: 收到的响应
-        '''
-        return self._request('post')
-    
-    def get(self) -> Response:
-        '''发送 GET 请求
+        参数:
+            data (Optional[dict[str, Any]]): 请求的数据
 
         返回:
             Response: 收到的响应
         '''
-        return self._request('get')
+        return self._request('post', data=data)
+    
+    def get(self, params: Optional[dict[str, Any]]=None) -> Response:
+        '''发送 GET 请求
+
+        参数:
+            params (Optional[dict[str, Any]]): 请求的参数
+
+        返回:
+            Response: 收到的响应
+        '''
+        return self._request('get', params=params)
