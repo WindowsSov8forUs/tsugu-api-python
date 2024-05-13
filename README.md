@@ -26,6 +26,10 @@ _✨ Python 编写的 [TsuguBanGDreamBot](https://github.com/Yamamoto-2/tsugu-ba
   <img src="https://img.shields.io/pypi/pyversions/tsugu-api-python" alt="Python Version">
 </a>
 
+<a href="https://pypi.org/project/tsugu-api-python/">
+  <img src="https://img.shields.io/pypi/v/tsugu-api-python" alt="PyPI Version">
+</a>
+
 </p>
 
 ## 说明
