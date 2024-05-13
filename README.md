@@ -42,8 +42,6 @@ _✨ Python 编写的 [TsuguBanGDreamBot](https://github.com/Yamamoto-2/tsugu-ba
 
 #### Tsugu 后端功能
 
-> **`None`** 表示该功能没有相应的方法。
-
 |功能描述|方法名称|
 |:------|:----------|
 |获取活动试炼舞台信息|`event_stage`|
