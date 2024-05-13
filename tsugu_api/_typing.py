@@ -51,7 +51,7 @@ class _Player(TypedDict):
     id: int
     server: _Server
 
-_Status: TypeAlias = Literal['success', 'failure']
+_Status: TypeAlias = Literal['success', 'failed']
 '''响应状态'''
 
 class _SubmitResponse(TypedDict):
@@ -90,7 +90,7 @@ class _TsuguUser(TypedDict):
     car: bool
     server_list: list[_TsuguUserServer]
 
-class _UserDataResponse(TypedDict):
+class _GetUserDataResponse(TypedDict):
     '''`/user/getUserData` 响应结果'''
     status: _Status
     data: Union[str, _TsuguUser]
@@ -104,7 +104,7 @@ class _Update(TypedDict):
     car: NotRequired[bool]
     server_list: NotRequired[list[_TsuguUserServer]]
 
-class _UpdateResponse(TypedDict):
+class _ChangeUserDataResponse(TypedDict):
     '''`/user/changeUserData` 响应结果'''
     status: _Status
     data: NotRequired[str]
@@ -113,12 +113,12 @@ class _VerifyCode(TypedDict):
     '''验证码'''
     verifyCode: int
 
-class _BindResponse(TypedDict):
+class _BindPlayerRequestResponse(TypedDict):
     '''`/user/bindPlayerRequest` 绑定响应'''
     status: _Status
     data: Union[str, _VerifyCode]
 
-class _VerificationResponse(TypedDict):
+class _BindPlayerVerificationResponse(TypedDict):
     '''`/user/bindPlayerVerification` 响应结果'''
     status: _Status
     data: str
