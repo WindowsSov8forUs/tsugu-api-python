@@ -62,7 +62,7 @@ class Api:
             data=cast(dict, dumps(data)) if data is not None else data,
             headers=headers
         )
-        print(data)
+        
         # 构建代理服务器字典
         if self.proxy:
             proxies = settings._get_proxy()
