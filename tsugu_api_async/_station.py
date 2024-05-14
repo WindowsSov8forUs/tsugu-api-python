@@ -33,7 +33,7 @@ async def station_submit_room_number(
     '''
     
     # 构建 URL
-    url = settings.backend_url + '/station/submitRoomNumber'
+    url = settings.userdata_backend_url + '/station/submitRoomNumber'
     
     # 构建数据
     data = {
@@ -50,7 +50,7 @@ async def station_submit_room_number(
     # 发送请求
     resonse = await Api(
         url,
-        proxy=settings.backend_proxy
+        proxy=settings.userdata_backend_proxy
     ).post(data)
     if isinstance(resonse, Response): return resonse.json()
     return await resonse.json()
@@ -63,12 +63,12 @@ async def station_query_all_room() -> _QueryResponse:
     '''
     
     # 构建 URL
-    url = settings.backend_url + '/station/queryAllRoom'
+    url = settings.userdata_backend_url + '/station/queryAllRoom'
     
     # 发送请求
     response = await Api(
         url,
-        proxy=settings.backend_proxy
+        proxy=settings.userdata_backend_proxy
     ).get()
     if isinstance(response, Response): return response.json()
     return await response.json()

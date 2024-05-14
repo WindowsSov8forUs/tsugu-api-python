@@ -26,6 +26,10 @@ userdata_backend_url: str = 'http://tsugubot.com:8080'
 '''
 用户数据后端地址
 
+所有的 `/user` 路由和 `/station` 路由都基于此
+
+由于这些路由需要用户数据库的支持，部分 tsugu 后端可能不存在该路由
+
 默认为 Tsugu 官方后端，若有自建后端服务器可进行修改。
 '''
 userdata_backend_proxy: bool = True
