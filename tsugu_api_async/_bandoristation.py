@@ -3,7 +3,7 @@ from httpx import Response
 from tsugu_api_async import settings
 from tsugu_api_async._network import Api
 from tsugu_api_async._typing import _StationRoom
-from tsugu_api_async.exception import RoomSubmitFailure
+from tsugu_api_async.exception import RoomQueryFailure, RoomSubmitFailure
 
 BANDORI_STATION_URL = 'https://api.bandoristation.com/index.php'
 
@@ -55,5 +55,8 @@ async def query_room_number() -> list[_StationRoom]:
         BANDORI_STATION_URL,
         proxy=settings.backend_proxy
     ).get(params)
-    if isinstance(response, Response): return response.json()
-    else: return await response.json()
+    if isinstance(response, Response): response = response.json()
+    else: response = await response.json()
+    if response['status'] == 'failure':
+        raise RoomQueryFailure(response['response'])
+    return response['response']

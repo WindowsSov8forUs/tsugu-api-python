@@ -1,7 +1,7 @@
 from tsugu_api import settings
 from tsugu_api._network import Api
 from tsugu_api._typing import _StationRoom
-from tsugu_api.exception import RoomSubmitFailure
+from tsugu_api.exception import RoomQueryFailure, RoomSubmitFailure
 
 BANDORI_STATION_URL = 'https://api.bandoristation.com/index.php'
 
@@ -47,7 +47,10 @@ def query_room_number() -> list[_StationRoom]:
     }
     
     # 发送请求
-    return Api(
+    response = Api(
         BANDORI_STATION_URL,
         proxy=settings.backend_proxy
     ).get(params).json()
+    if response['status'] == 'failure':
+        raise RoomQueryFailure(response['response'])
+    return response['response']
