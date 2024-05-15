@@ -63,8 +63,15 @@ _✨ Python 编写的 [TsuguBanGDreamBot](https://github.com/Yamamoto-2/tsugu-ba
 |查询歌曲分数表|`song_meta`|
 |查询指定活动的指定档位预测线|`ycx`|
 |查询指定活动的全部档位预测线|`ycx_all`|
-|提交车牌信息到后端|`station_submit_room_number`|
-|从后端获取最近的车牌信息列表|`station_query_all_room`|
+
+#### 车站数据后端功能
+
+|功能描述|方法名称|
+|:------|:----------|
+|提交房间信息到后端|`station_submit_room_number`|
+|从后端获取最近的房间信息列表|`station_query_all_room`|
+
+> 若后端不支持用户数据库，以上功能可能无法使用，请以 **车站功能** API 代替。
 
 #### 用户数据后端功能
 
@@ -81,7 +88,8 @@ _✨ Python 编写的 [TsuguBanGDreamBot](https://github.com/Yamamoto-2/tsugu-ba
 
 |功能描述|方法名称|
 |:------|:----------|
-|提交车牌信息到车站|`submit_room_number`|
+|从车站获取最近的房间信息列表|`query_room_number`|
+|提交房间信息到车站|`submit_room_number`|
 
 
 ## 快速使用
