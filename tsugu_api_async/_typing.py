@@ -9,9 +9,9 @@ from typing import (
     Union,
     Literal,
     TypeAlias,
-    TypedDict,
-    NotRequired
+    TypedDict
 )
+from typing_extensions import NotRequired
 
 from httpx import Response
 from aiohttp import ClientResponse

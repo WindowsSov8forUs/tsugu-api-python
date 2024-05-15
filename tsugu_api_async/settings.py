@@ -1,9 +1,9 @@
 '''对 tsugu_api 进行配置'''
 
-from enum import StrEnum
+from enum import Enum
 from typing import Optional
 
-class Client(StrEnum):
+class Client(str, Enum):
     HTTPX = 'httpx'
     '''使用 `httpx`'''
     AIO_HTTP = 'aiohttp'

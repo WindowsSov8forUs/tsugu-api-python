@@ -9,9 +9,9 @@ from typing import (
     Union,
     Literal,
     TypeAlias,
-    TypedDict,
-    NotRequired
+    TypedDict
 )
+from typing_extensions import NotRequired
 
 _ServerId: TypeAlias = Literal[0, 1, 2, 3, 4]
 '''
