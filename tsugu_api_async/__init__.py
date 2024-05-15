@@ -29,4 +29,5 @@ from ._tsugu import get_card_illustration as get_card_illustration
 from ._station import station_query_all_room as station_query_all_room
 from ._station import station_submit_room_number as station_submit_room_number
 
+from ._bandoristation import query_room_number as query_room_number
 from ._bandoristation import submit_room_number as submit_room_number
