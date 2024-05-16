@@ -1,3 +1,5 @@
+from typing import List
+
 from httpx import Response
 
 from tsugu_api_async import settings
@@ -38,11 +40,11 @@ async def submit_room_number(number: int, user_id: str, raw_message: str, source
     if response['status'] == 'failure':
         raise RoomSubmitFailure(response['response'])
 
-async def query_room_number() -> list[_StationRoom]:
+async def query_room_number() -> List[_StationRoom]:
     '''获取房间号
 
     返回:
-        list[_StationRoom]: 房间信息列表
+        List[_StationRoom]: 房间信息列表
     '''
     
     # 构建参数

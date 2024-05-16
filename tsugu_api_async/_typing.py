@@ -6,6 +6,7 @@
 
 from typing import (
     Any,
+    List,
     Union,
     Literal,
     TypeAlias,
@@ -48,7 +49,7 @@ class _Data(TypedDict):
     type: Literal['string', 'base64']
     string: str
 
-_Response: TypeAlias = list[_Data]
+_Response: TypeAlias = List[_Data]
 
 _DifficultyText: TypeAlias = Literal['easy', 'normal', 'hard', 'expert', 'special']
 '''难度名'''
@@ -79,7 +80,7 @@ class _Room(TypedDict):
 class _QueryResponse(TypedDict):
     '''`/station/queryAllRoom` 响应结果'''
     status: _Status
-    data: Union[str, list[_Room]]
+    data: Union[str, List[_Room]]
 
 class _TsuguUserServer(TypedDict):
     '''服务器数据'''
@@ -92,9 +93,9 @@ class _TsuguUser(TypedDict):
     user_id: str
     platform: str
     server_mode: _ServerId
-    default_server: list[_ServerId]
+    default_server: List[_ServerId]
     car: bool
-    server_list: list[_TsuguUserServer]
+    server_list: List[_TsuguUserServer]
 
 class _GetUserDataResponse(TypedDict):
     '''`/user/getUserData` 响应结果'''
@@ -106,9 +107,9 @@ class _Update(TypedDict):
     user_id: NotRequired[str]
     platform: NotRequired[str]
     server_mode: NotRequired[_ServerId]
-    default_server: NotRequired[list[_ServerId]]
+    default_server: NotRequired[List[_ServerId]]
     car: NotRequired[bool]
-    server_list: NotRequired[list[_TsuguUserServer]]
+    server_list: NotRequired[List[_TsuguUserServer]]
 
 class _ChangeUserDataResponse(TypedDict):
     '''`/user/changeUserData` 响应结果'''

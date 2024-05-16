@@ -1,3 +1,5 @@
+from typing import List
+
 from tsugu_api import settings
 from tsugu_api._network import Api
 from tsugu_api._typing import _StationRoom
@@ -34,11 +36,11 @@ def submit_room_number(number: int, user_id: str, raw_message: str, source: str,
     if response['status'] == 'failure':
         raise RoomSubmitFailure(response['response'])
 
-def query_room_number() -> list[_StationRoom]:
+def query_room_number() -> List[_StationRoom]:
     '''获取房间号
 
     返回:
-        list[_StationRoom]: 房间信息列表
+        List[_StationRoom]: 房间信息列表
     '''
     
     # 构建参数
