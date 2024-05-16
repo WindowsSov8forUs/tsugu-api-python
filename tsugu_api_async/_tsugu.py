@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import List, Optional, Sequence
 
 from httpx import Response
 
@@ -161,7 +161,7 @@ async def room_list(room_list: List[_Room]) -> _Response:
     if isinstance(response, Response): return response.json()
     return await response.json()
 
-async def search_card(default_servers: List[_Server], text: str) -> _Response:
+async def search_card(default_servers: Sequence[_Server], text: str) -> _Response:
     '''查询卡片
 
     参数:
@@ -191,7 +191,7 @@ async def search_card(default_servers: List[_Server], text: str) -> _Response:
     if isinstance(response, Response): return response.json()
     return await response.json()
 
-async def search_character(default_servers: List[_Server], text: str) -> _Response:
+async def search_character(default_servers: Sequence[_Server], text: str) -> _Response:
     '''查询角色
 
     参数:
@@ -220,7 +220,7 @@ async def search_character(default_servers: List[_Server], text: str) -> _Respon
     if isinstance(response, Response): return response.json()
     return await response.json()
 
-async def search_event(default_servers: List[_Server], text: str) -> _Response:
+async def search_event(default_servers: Sequence[_Server], text: str) -> _Response:
     '''查询活动
 
     参数:
@@ -250,7 +250,7 @@ async def search_event(default_servers: List[_Server], text: str) -> _Response:
     if isinstance(response, Response): return response.json()
     return await response.json()
 
-async def search_gacha(default_servers: List[_Server], gacha_id: int) -> _Response:
+async def search_gacha(default_servers: Sequence[_Server], gacha_id: int) -> _Response:
     '''查询卡池
 
     参数:
@@ -310,7 +310,7 @@ async def search_player(player_id: int, server: _Server) -> _Response:
     if isinstance(response, Response): return response.json()
     return await response.json()
 
-async def search_song(default_servers: List[_Server], text: str) -> _Response:
+async def search_song(default_servers: Sequence[_Server], text: str) -> _Response:
     '''查询歌曲
 
     参数:
@@ -339,7 +339,7 @@ async def search_song(default_servers: List[_Server], text: str) -> _Response:
     if isinstance(response, Response): return response.json()
     return await response.json()
 
-async def song_chart(default_servers: List[_Server], song_id: int, difficulty_text: _DifficultyText) -> _Response:
+async def song_chart(default_servers: Sequence[_Server], song_id: int, difficulty_text: _DifficultyText) -> _Response:
     '''查询歌曲谱面
 
     参数:
@@ -370,7 +370,7 @@ async def song_chart(default_servers: List[_Server], song_id: int, difficulty_te
     if isinstance(response, Response): return response.json()
     return await response.json()
 
-async def song_meta(default_servers: List[_Server], server: _Server) -> _Response:
+async def song_meta(default_servers: Sequence[_Server], server: _Server) -> _Response:
     '''查询歌曲分数表
 
     参数:

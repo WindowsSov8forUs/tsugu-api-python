@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import List, Optional, Sequence
 
 from tsugu_api import settings
 from tsugu_api._network import Api
@@ -149,7 +149,7 @@ def room_list(room_list: List[_Room]) -> _Response:
         proxy=settings.backend_proxy
     ).post(data).json()
 
-def search_card(default_servers: List[_Server], text: str) -> _Response:
+def search_card(default_servers: Sequence[_Server], text: str) -> _Response:
     '''查询卡片
 
     参数:
@@ -177,7 +177,7 @@ def search_card(default_servers: List[_Server], text: str) -> _Response:
         proxy=settings.backend_proxy
     ).post(data).json()
 
-def search_character(default_servers: List[_Server], text: str) -> _Response:
+def search_character(default_servers: Sequence[_Server], text: str) -> _Response:
     '''查询角色
 
     参数:
@@ -204,7 +204,7 @@ def search_character(default_servers: List[_Server], text: str) -> _Response:
         proxy=settings.backend_proxy
     ).post(data).json()
 
-def search_event(default_servers: List[_Server], text: str) -> _Response:
+def search_event(default_servers: Sequence[_Server], text: str) -> _Response:
     '''查询活动
 
     参数:
@@ -232,7 +232,7 @@ def search_event(default_servers: List[_Server], text: str) -> _Response:
         proxy=settings.backend_proxy
     ).post(data).json()
 
-def search_gacha(default_servers: List[_Server], gacha_id: int) -> _Response:
+def search_gacha(default_servers: Sequence[_Server], gacha_id: int) -> _Response:
     '''查询卡池
 
     参数:
@@ -288,7 +288,7 @@ def search_player(player_id: int, server: _Server) -> _Response:
         proxy=settings.backend_proxy
     ).post(data).json()
 
-def search_song(default_servers: List[_Server], text: str) -> _Response:
+def search_song(default_servers: Sequence[_Server], text: str) -> _Response:
     '''查询歌曲
 
     参数:
@@ -315,7 +315,7 @@ def search_song(default_servers: List[_Server], text: str) -> _Response:
         proxy=settings.backend_proxy
     ).post(data).json()
 
-def song_chart(default_servers: List[_Server], song_id: int, difficulty_text: _DifficultyText) -> _Response:
+def song_chart(default_servers: Sequence[_Server], song_id: int, difficulty_text: _DifficultyText) -> _Response:
     '''查询歌曲谱面
 
     参数:
@@ -344,7 +344,7 @@ def song_chart(default_servers: List[_Server], song_id: int, difficulty_text: _D
         proxy=settings.backend_proxy
     ).post(data).json()
 
-def song_meta(default_servers: List[_Server], server: _Server) -> _Response:
+def song_meta(default_servers: Sequence[_Server], server: _Server) -> _Response:
     '''查询歌曲分数表
 
     参数:
