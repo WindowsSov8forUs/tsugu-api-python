@@ -86,8 +86,8 @@ class _TsuguUser(TypedDict):
     '''用户数据'''
     user_id: str
     platform: str
-    server_mode: _Server
-    default_server: list[_Server]
+    server_mode: _ServerId
+    default_server: list[_ServerId]
     car: bool
     server_list: list[_TsuguUserServer]
 
