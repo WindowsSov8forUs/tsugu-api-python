@@ -3,6 +3,7 @@
 '''
 
 import tsugu_api_core.utils as utils
+import tsugu_api_core._typing as _typing
 import tsugu_api_core.settings as settings
 
 from ._user import get_user_data as get_user_data

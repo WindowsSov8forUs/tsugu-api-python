@@ -2,8 +2,9 @@
 `tsugu_api` 向 Tsugu 后端 API 请求模块
 '''
 
-import tsugu_api_core.settings as settings
 import tsugu_api_core.utils as utils
+import tsugu_api_core._typing as _typing
+import tsugu_api_core.settings as settings
 
 from ._user import get_user_data as get_user_data
 from ._user import change_user_data as change_user_data
