@@ -1,9 +1,9 @@
 from typing import List
 
-from tsugu_api import settings
-from tsugu_api._network import Api
-from tsugu_api._typing import _StationRoom
-from tsugu_api.exception import RoomQueryFailure, RoomSubmitFailure
+from tsugu_api_core import settings
+from tsugu_api_core._network import Api
+from tsugu_api_core._typing import _StationRoom
+from tsugu_api_core.exception import RoomQueryFailure, RoomSubmitFailure
 
 BANDORI_STATION_URL = 'https://api.bandoristation.com/index.php'
 

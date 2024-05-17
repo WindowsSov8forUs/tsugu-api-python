@@ -1,5 +1,5 @@
 '''
-`tsugu_api_async.utils` Tsugu API 工具模块
+`tsugu_api_core.utils` Tsugu API 工具模块
 '''
 
 def string_to_server_code(server: str) -> int:

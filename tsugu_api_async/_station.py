@@ -3,9 +3,9 @@ from typing import Optional
 
 from httpx import Response
 
-from tsugu_api_async import settings
-from tsugu_api_async._network import Api
-from tsugu_api_async._typing import (
+from tsugu_api_core import settings
+from tsugu_api_core._network import Api
+from tsugu_api_core._typing import (
     _QueryResponse,
     _SubmitResponse
 )
@@ -51,7 +51,7 @@ async def station_submit_room_number(
     resonse = await Api(
         url,
         proxy=settings.userdata_backend_proxy
-    ).post(data)
+    ).apost(data)
     if isinstance(resonse, Response): return resonse.json()
     return await resonse.json()
 
@@ -69,6 +69,6 @@ async def station_query_all_room() -> _QueryResponse:
     response = await Api(
         url,
         proxy=settings.userdata_backend_proxy
-    ).get()
+    ).aget()
     if isinstance(response, Response): return response.json()
     return await response.json()

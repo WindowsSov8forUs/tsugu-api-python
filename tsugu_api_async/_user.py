@@ -1,10 +1,8 @@
-from typing import Union
-
 from httpx import Response
 
-from tsugu_api_async import settings
-from tsugu_api_async._network import Api
-from tsugu_api_async._typing import (
+from tsugu_api_core import settings
+from tsugu_api_core._network import Api
+from tsugu_api_core._typing import (
     _Update,
     _ServerId,
     _GetUserDataResponse,
@@ -37,7 +35,7 @@ async def get_user_data(platform: str, user_id: str) -> _GetUserDataResponse:
     response = await Api(
         url,
         proxy=settings.userdata_backend_proxy
-    ).post(data)
+    ).apost(data)
     if isinstance(response, Response): return response.json()
     return await response.json()
 
@@ -67,7 +65,7 @@ async def change_user_data(platform: str, user_id: str, update: _Update) -> _Cha
     response = await Api(
         url,
         proxy=settings.userdata_backend_proxy
-    ).post(data)
+    ).apost(data)
     if isinstance(response, Response): return response.json()
     return await response.json()
 
@@ -104,7 +102,7 @@ async def bind_player_request(
     response = await Api(
         url,
         proxy=settings.userdata_backend_proxy
-    ).post(data)
+    ).apost(data)
     if isinstance(response, Response): return response.json()
     return await response.json()
 
@@ -144,6 +142,6 @@ async def bind_player_verification(
     response = await Api(
         url,
         proxy=settings.userdata_backend_proxy
-    ).post(data)
+    ).apost(data)
     if isinstance(response, Response): return response.json()
     return await response.json()

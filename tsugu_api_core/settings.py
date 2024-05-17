@@ -64,7 +64,7 @@ compress: bool = True
 默认为 True，即压缩返回数据。若不压缩返回数据，可将此项设置为 False。
 '''
 
-def _get_proxy() -> Optional[dict[str, str]]:
+def _get_proxies() -> Optional[dict[str, str]]:
     global proxy
     
     if proxy == '':

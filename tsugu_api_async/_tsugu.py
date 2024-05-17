@@ -2,9 +2,9 @@ from typing import List, Optional, Sequence
 
 from httpx import Response
 
-from tsugu_api_async import settings
-from tsugu_api_async._network import Api
-from tsugu_api_async._typing import (
+from tsugu_api_core import settings
+from tsugu_api_core._network import Api
+from tsugu_api_core._typing import (
     _Room,
     _Server,
     _Response,
@@ -39,7 +39,7 @@ async def event_stage(server: _Server, event_id: Optional[int] = None, meta: boo
     response = await Api(
         url,
         proxy=settings.backend_proxy
-    ).post(data)
+    ).apost(data)
     if isinstance(response, Response): return response.json()
     return await response.json()
 
@@ -72,7 +72,7 @@ async def gacha_simulate(server_mode: _Server, times: Optional[int] = None, gach
     response = await Api(
         url,
         proxy=settings.backend_proxy
-    ).post(data)
+    ).apost(data)
     if isinstance(response, Response): return response.json()
     return await response.json()
 
@@ -98,7 +98,7 @@ async def get_card_illustration(card_id: int) -> _Response:
     response = await Api(
         url,
         proxy=settings.backend_proxy
-    ).post(data)
+    ).apost(data)
     if isinstance(response, Response): return response.json()
     return await response.json()
 
@@ -130,7 +130,7 @@ async def lsycx(server: _Server, tier: int, event_id: Optional[int] = None) -> _
     response = await Api(
         url,
         proxy=settings.backend_proxy
-    ).post(data)
+    ).apost(data)
     if isinstance(response, Response): return response.json()
     return await response.json()
 
@@ -157,7 +157,7 @@ async def room_list(room_list: List[_Room]) -> _Response:
     response = await Api(
         url,
         proxy=settings.backend_proxy
-    ).post(data)
+    ).apost(data)
     if isinstance(response, Response): return response.json()
     return await response.json()
 
@@ -187,7 +187,7 @@ async def search_card(default_servers: Sequence[_Server], text: str) -> _Respons
     response = await Api(
         url,
         proxy=settings.backend_proxy
-    ).post(data)
+    ).apost(data)
     if isinstance(response, Response): return response.json()
     return await response.json()
 
@@ -216,7 +216,7 @@ async def search_character(default_servers: Sequence[_Server], text: str) -> _Re
     response = await Api(
         url,
         proxy=settings.backend_proxy
-    ).post(data)
+    ).apost(data)
     if isinstance(response, Response): return response.json()
     return await response.json()
 
@@ -246,7 +246,7 @@ async def search_event(default_servers: Sequence[_Server], text: str) -> _Respon
     response = await Api(
         url,
         proxy=settings.backend_proxy
-    ).post(data)
+    ).apost(data)
     if isinstance(response, Response): return response.json()
     return await response.json()
 
@@ -276,7 +276,7 @@ async def search_gacha(default_servers: Sequence[_Server], gacha_id: int) -> _Re
     response = await Api(
         url,
         proxy=settings.backend_proxy
-    ).post(data)
+    ).apost(data)
     if isinstance(response, Response): return response.json()
     return await response.json()
 
@@ -306,7 +306,7 @@ async def search_player(player_id: int, server: _Server) -> _Response:
     response = await Api(
         url,
         proxy=settings.backend_proxy
-    ).post(data)
+    ).apost(data)
     if isinstance(response, Response): return response.json()
     return await response.json()
 
@@ -335,7 +335,7 @@ async def search_song(default_servers: Sequence[_Server], text: str) -> _Respons
     response = await Api(
         url,
         proxy=settings.backend_proxy
-    ).post(data)
+    ).apost(data)
     if isinstance(response, Response): return response.json()
     return await response.json()
 
@@ -366,7 +366,7 @@ async def song_chart(default_servers: Sequence[_Server], song_id: int, difficult
     response = await Api(
         url,
         proxy=settings.backend_proxy
-    ).post(data)
+    ).apost(data)
     if isinstance(response, Response): return response.json()
     return await response.json()
 
@@ -395,7 +395,7 @@ async def song_meta(default_servers: Sequence[_Server], server: _Server) -> _Res
     response = await Api(
         url,
         proxy=settings.backend_proxy
-    ).post(data)
+    ).apost(data)
     if isinstance(response, Response): return response.json()
     return await response.json()
 
@@ -427,7 +427,7 @@ async def ycx(server: _Server, tier: int, event_id: Optional[int] = None) -> _Re
     response = await Api(
         url,
         proxy=settings.backend_proxy
-    ).post(data)
+    ).apost(data)
     if isinstance(response, Response): return response.json()
     return await response.json()
 
@@ -457,6 +457,6 @@ async def ycx_all(server: _Server, event_id: Optional[int] = None) -> _Response:
     response = await Api(
         url,
         proxy=settings.backend_proxy
-    ).post(data)
+    ).apost(data)
     if isinstance(response, Response): return response.json()
     return await response.json()

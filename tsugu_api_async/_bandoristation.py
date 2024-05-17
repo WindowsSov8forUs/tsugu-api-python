@@ -2,10 +2,10 @@ from typing import List
 
 from httpx import Response
 
-from tsugu_api_async import settings
-from tsugu_api_async._network import Api
-from tsugu_api_async._typing import _StationRoom
-from tsugu_api_async.exception import RoomQueryFailure, RoomSubmitFailure
+from tsugu_api_core import settings
+from tsugu_api_core._network import Api
+from tsugu_api_core._typing import _StationRoom
+from tsugu_api_core.exception import RoomQueryFailure, RoomSubmitFailure
 
 BANDORI_STATION_URL = 'https://api.bandoristation.com/index.php'
 
@@ -34,7 +34,7 @@ async def submit_room_number(number: int, user_id: str, raw_message: str, source
     response = await Api(
             BANDORI_STATION_URL,
             proxy=settings.backend_proxy
-    ).get(params)
+    ).aget(params)
     if isinstance(response, Response): response = response.json()
     else: response = await response.json()
     if response['status'] == 'failure':
@@ -56,7 +56,7 @@ async def query_room_number() -> List[_StationRoom]:
     response = await Api(
         BANDORI_STATION_URL,
         proxy=settings.backend_proxy
-    ).get(params)
+    ).aget(params)
     if isinstance(response, Response): response = response.json()
     else: response = await response.json()
     if response['status'] == 'failure':

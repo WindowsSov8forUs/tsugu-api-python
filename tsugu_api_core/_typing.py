@@ -1,5 +1,5 @@
 '''
-`tsugu_api._typing`
+`tsugu_api_core._typing`
 
 定义了一些类型别名
 '''
