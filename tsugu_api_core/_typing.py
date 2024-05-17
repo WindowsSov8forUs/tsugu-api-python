@@ -30,6 +30,7 @@ _ServerId: TypeAlias = Literal[0, 1, 2, 3, 4]
     3: 国服
     4: 韩服
 '''
+SERVER_ID = (0, 1, 2, 3, 4)
 _ServerName: TypeAlias = Literal['jp', 'en', 'tw', 'cn', 'kr']
 '''
 服务器名
@@ -41,8 +42,19 @@ _ServerName: TypeAlias = Literal['jp', 'en', 'tw', 'cn', 'kr']
     'cn': 国服
     'kr': 韩服
 '''
+SERVER_NAME = ('jp', 'en', 'tw', 'cn', 'kr')
 _Server: TypeAlias = Union[_ServerId, _ServerName]
 '''服务器'''
+SERVER = (0, 1, 2, 3, 4, 'jp', 'en', 'tw', 'cn', 'kr')
+
+def is_server(server: Any) -> bool:
+    return server in SERVER
+
+def is_server_list(server_list: List[Any]) -> bool:
+    for server in server_list:
+        if not is_server(server):
+            return False
+    return True
 
 class _Data(TypedDict):
     '''API 单个响应数据'''
