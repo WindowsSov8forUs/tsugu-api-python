@@ -85,7 +85,7 @@ class _Room(TypedDict):
     source: str
     userId: str
     time: int
-    player: _Player
+    player: NotRequired[_Player]
     avanter: NotRequired[str]
     userName: NotRequired[str]
 
