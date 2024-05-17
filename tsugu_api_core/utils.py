@@ -1,8 +1,14 @@
 '''
 `tsugu_api_core.utils` Tsugu API 工具模块
 '''
+from tsugu_api_core._typing import (
+    _Room,
+    _ServerId,
+    _ServerName,
+    _StationRoom
+)
 
-def string_to_server_code(server: str) -> int:
+def string_to_server_code(server: str) -> _ServerId:
     if server == 'jp':
         return 0
     elif server == 'en':
@@ -26,7 +32,7 @@ def string_to_server_code(server: str) -> int:
     else:
         raise ValueError('服务器名称不存在')
 
-def int_to_server_short(server: int) -> str:
+def int_to_server_short(server: int) -> _ServerName:
     if server == 0:
         return 'jp'
     elif server == 1:
@@ -53,3 +59,15 @@ def int_to_server_full(server: int) -> str:
         return '韩服'
     else:
         raise ValueError('服务器代码不存在')
+
+def station_room_to_tsugu(station_room: _StationRoom) -> _Room:
+    room: _Room = {
+        'number': station_room['number'],
+        'rawMessage': station_room['raw_message'],
+        'source': station_room['source_info']['name'],
+        'userId': str(station_room['user_info']['user_id']),
+        'time': station_room['time'],
+        'avanter': station_room['user_info']['avatar'],
+        'userName': station_room['user_info']['username']
+    }
+    return room
