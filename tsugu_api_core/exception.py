@@ -1,3 +1,6 @@
+from typing import List
+from tsugu_api_core._typing import _BadRequestResponse
+
 class TsuguException(Exception):
     '''tsugu_api_core 异常基类'''
     data: str = ''
@@ -8,6 +11,27 @@ class TsuguException(Exception):
     
     def __str__(self) -> str:
         return self.data
+
+class BadRequestError(TsuguException):
+    '''请求的参数错误'''
+    api: str
+    '''请求的 API'''
+    response: _BadRequestResponse
+    '''API 返回的响应'''
+    def __init__(self, api: str, response: _BadRequestResponse) -> None:
+        '''初始化'''
+        self.api = api
+        self.response = response
+        
+        error_messages: List[str] = []
+        for error in response['error']:
+            error_messages.append(
+                f"\tGot a wrong value '{str(error['value'])}' for {error['type']} parameter '{error['path']}' in {error['location']}: {error['msg']}"
+            )
+        
+        super().__init__(f"API {api} got wrong parameters:\n" + '\n'.join(error_messages))
+        
+        return
 
 class RoomSubmitFailure(TsuguException):
     '''房间号上传失败'''
