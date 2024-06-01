@@ -1,11 +1,11 @@
 '''
 `tsugu_api_core.utils` Tsugu API 工具模块
 '''
+from tsugu_api_core.bandoristation._typing import _StationRoom
 from tsugu_api_core._typing import (
     _Room,
     _ServerId,
-    _ServerName,
-    _StationRoom
+    _ServerName
 )
 
 def string_to_server_code(server: str) -> _ServerId:
@@ -67,7 +67,7 @@ def station_room_to_tsugu(station_room: _StationRoom) -> _Room:
         'source': station_room['source_info']['name'],
         'userId': str(station_room['user_info']['user_id']),
         'time': station_room['time'],
-        'avanter': station_room['user_info']['avatar'],
+        'avatarUrl': station_room['user_info']['avatar'],
         'userName': station_room['user_info']['username']
     }
     return room

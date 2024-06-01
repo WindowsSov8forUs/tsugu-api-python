@@ -32,17 +32,3 @@ class BadRequestError(TsuguException):
         super().__init__(f"API {api} got wrong parameters:\n" + '\n'.join(error_messages))
         
         return
-
-class RoomSubmitFailure(TsuguException):
-    '''房间号上传失败'''
-    def __init__(self, response: str) -> None:
-        '''初始化'''
-        super().__init__(response)
-        return
-
-class RoomQueryFailure(TsuguException):
-    '''房间号获取失败'''
-    def __init__(self, response: str) -> None:
-        '''初始化'''
-        super().__init__(response)
-        return
