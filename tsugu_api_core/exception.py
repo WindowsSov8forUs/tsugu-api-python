@@ -26,9 +26,9 @@ class BadRequestError(TsuguException):
         error_messages: List[str] = []
         for error in response['error']:
             error_messages.append(
-                f"\tGot a wrong value '{str(error['value'])}' for {error['type']} parameter '{error['path']}' in {error['location']}: {error['msg']}"
+                f"\tGot a wrong value '{str(error['value'])}' for {error['type']} parameter '{error['path']}' in {error['location']}: {error['msg']}."
             )
         
-        super().__init__(f"API {api} got wrong parameters:\n" + '\n'.join(error_messages))
+        super().__init__(f'API {api} got wrong parameters:\n' + '\n'.join(error_messages))
         
         return
