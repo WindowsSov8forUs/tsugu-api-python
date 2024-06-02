@@ -14,6 +14,7 @@ def station_submit_room_number(
     platform: str,
     user_id: str,
     user_name: str,
+    avatar_url: Optional[str] = None,
     bandori_station_token: Optional[str] = None
 ) -> _SubmitResponse:
     '''提交车牌号
@@ -24,6 +25,7 @@ def station_submit_room_number(
         platform (str): 平台
         user_id (str): 用户 ID
         user_name (str): 用户名
+        avatar_url (Optional[str]): 用户头像 URL
         bandori_station_token (Optional[str]): Bandori 车站令牌，不填则使用 Tsugu 后端配置
 
     返回:
@@ -38,10 +40,12 @@ def station_submit_room_number(
         'number': number,
         'rawMessage': raw_message,
         'platform': platform,
-        'user_id': user_id,
+        'userId': user_id,
         'userName': user_name,
         'time': int(time())
     }
+    if avatar_url:
+        data['avatarUrl'] = avatar_url
     if bandori_station_token:
         data['bandoriStationToken'] = bandori_station_token
     
