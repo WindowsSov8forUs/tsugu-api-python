@@ -228,7 +228,7 @@ async def get_card_illustration(card_id: int) -> _Response:
     if isinstance(response, Response): return response.json()
     return await response.json()
 
-@deprecated("The `lsycx` api is deprecated, use `cutoff_compare` instead.", category=None)
+@deprecated("The `lsycx` api is now deprecated, use `cutoff_compare` instead.", category=None)
 async def lsycx(server: _Server, tier: int, event_id: Optional[int] = None) -> _Response:
     '''查询历史排行榜预测线
 
@@ -241,7 +241,7 @@ async def lsycx(server: _Server, tier: int, event_id: Optional[int] = None) -> _
         _Response: 响应信息
     '''
     warnings.warn(
-        "The `lsycx` api is deprecated, use `cutoff_compare` instead.",
+        "The `lsycx` api is now deprecated, use `cutoff_compare` instead.",
         DeprecationWarning
     )
     
@@ -557,7 +557,7 @@ async def song_meta(
     if isinstance(response, Response): return response.json()
     return await response.json()
 
-@deprecated("The `ycx` api is deprecated, use `cutoff_detail` instead.", category=None)
+@deprecated("The `ycx` api is now deprecated, use `cutoff_detail` instead.", category=None)
 async def ycx(server: _Server, tier: int, event_id: Optional[int] = None) -> _Response:
     '''查询排行榜预测线
 
@@ -570,7 +570,7 @@ async def ycx(server: _Server, tier: int, event_id: Optional[int] = None) -> _Re
         _Response: 响应信息
     '''
     warnings.warn(
-        "The `ycx` api is deprecated, use `cutoff_detail` instead.",
+        "The `ycx` api is now deprecated, use `cutoff_detail` instead.",
         DeprecationWarning
     )
     
@@ -579,7 +579,7 @@ async def ycx(server: _Server, tier: int, event_id: Optional[int] = None) -> _Re
     
     return await cutoff_detail(server, tier, event_id)
 
-@deprecated("The `ycx_all` api is deprecated, use `cutoff_list_of_event` instead.", category=None)
+@deprecated("The `ycx_all` api is now deprecated, use `cutoff_list_of_event` instead.", category=None)
 async def ycx_all(server: _Server, event_id: Optional[int] = None) -> _Response:
     '''查询全挡位预测线
 
@@ -591,7 +591,7 @@ async def ycx_all(server: _Server, event_id: Optional[int] = None) -> _Response:
         _Response: 响应信息
     '''
     warnings.warn(
-        "The `ycx_all` api is deprecated, use `cutoff_list_of_event` instead.",
+        "The `ycx_all` api is now deprecated, use `cutoff_list_of_event` instead.",
         DeprecationWarning
     )
     
