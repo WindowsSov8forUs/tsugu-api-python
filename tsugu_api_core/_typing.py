@@ -83,6 +83,11 @@ class _BadRequestResponse(TypedDict):
     data: str
     error: List[_Error]
 
+class _FailedResponse(TypedDict):
+    '''失败响应信息'''
+    status: Literal['failed']
+    data: str
+
 _Status: TypeAlias = Literal['success', 'failed']
 '''响应状态'''
 
@@ -91,7 +96,7 @@ _FuzzySearchResult: TypeAlias = Dict[str, List[Union[str, int]]]
 class _FuzzySearchResponse(TypedDict):
     '''`/fuzzySearch` 响应结果'''
     status: _Status
-    data: Union[str, _FuzzySearchResult]
+    data: _FuzzySearchResult
 
 _DifficultyId: TypeAlias = Literal[0, 1, 2, 3, 4]
 '''难度 ID'''
@@ -119,7 +124,7 @@ class _Room(TypedDict):
 class _QueryResponse(TypedDict):
     '''`/station/queryAllRoom` 响应结果'''
     status: _Status
-    data: Union[str, List[_Room]]
+    data: List[_Room]
 
 class _TsuguUserServer(TypedDict):
     '''服务器数据'''
@@ -147,7 +152,7 @@ class _TsuguUser(TypedDict):
 class _GetUserDataResponse(TypedDict):
     '''`/user/getUserData` 响应结果'''
     status: _Status
-    data: Union[str, _TsuguUser]
+    data: _TsuguUser
 
 class _PartialTsuguUser(TypedDict):
     '''更新数据'''
@@ -169,7 +174,6 @@ class _PartialTsuguUser(TypedDict):
 class _ChangeUserDataResponse(TypedDict):
     '''`/user/changeUserData` 响应结果'''
     status: _Status
-    data: NotRequired[str]
 
 class _VerifyCode(TypedDict):
     '''验证码'''
@@ -181,7 +185,7 @@ _BindingAction: TypeAlias = Literal['bind', 'unbind']
 class _BindPlayerRequestResponse(TypedDict):
     '''`/user/bindPlayerRequest` 绑定响应'''
     status: _Status
-    data: Union[str, _VerifyCode]
+    data: _VerifyCode
 
 class _BindPlayerVerificationResponse(TypedDict):
     '''`/user/bindPlayerVerification` 响应结果'''

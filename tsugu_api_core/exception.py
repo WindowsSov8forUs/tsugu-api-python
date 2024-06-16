@@ -1,5 +1,5 @@
 from typing import List
-from tsugu_api_core._typing import _BadRequestResponse
+from tsugu_api_core._typing import _FailedResponse, _BadRequestResponse
 
 class TsuguException(Exception):
     '''tsugu_api_core 异常基类'''
@@ -32,3 +32,29 @@ class BadRequestError(TsuguException):
         super().__init__(f'API {api} got wrong parameters:\n' + '\n'.join(error_messages))
         
         return
+
+class FailedException(TsuguException):
+    '''API 请求失败'''
+    api: str
+    '''请求的 API'''
+    status_code: int
+    '''API 返回的状态码'''
+    response: _FailedResponse
+    '''API 返回的响应'''
+    def __init__(self, api: str, status_code: int, response: _FailedResponse) -> None:
+        '''初始化'''
+        self.api = api
+        self.status_code = status_code
+        self.response = response
+        
+        super().__init__(f'API {api} failed ({status_code}) : {response["data"]}')
+        
+        return
+    
+    def json(self) -> _FailedResponse:
+        '''返回 API 返回的响应'''
+        return self.response
+    
+    @property
+    def data(self) -> str:
+        return self.response['data']

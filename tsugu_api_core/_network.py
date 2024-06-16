@@ -9,6 +9,7 @@ from httpx import Client, Request, Response, AsyncClient, HTTPStatusError
 
 from . import settings
 from ._typing import _ApiResponse
+from .exception import BadRequestError, FailedException
 
 # 向后端发送 API 请求类
 class Api:
@@ -92,12 +93,20 @@ class Api:
                 response.raise_for_status()
             except HTTPStatusError as exception:
                 if exception.response.status_code == 400:
-                    return response
+                    _response: dict[str, Any] = exception.response.json()
+                    raise BadRequestError(self.url, _response) # type: ignore
+                elif exception.response.status_code in (404, 409, 422, 500):
+                    _response: dict[str, Any] = exception.response.json()
+                    raise FailedException(self.url, exception.response.status_code, _response) # type: ignore
                 else:
                     raise exception
         else:
             if response.status == 400:
-                return response
+                _response: dict[str, Any] = await response.json()
+                raise BadRequestError(self.url, _response) # type: ignore
+            elif response.status in (404, 409, 422, 500):
+                _response: dict[str, Any] = await response.json()
+                raise FailedException(self.url, response.status, _response) # type: ignore
             else:
                 response.raise_for_status()
         return response
@@ -172,7 +181,11 @@ class Api:
             response.raise_for_status()
         except HTTPStatusError as exception:
             if exception.response.status_code == 400:
-                return response
+                _response: dict[str, Any] = exception.response.json()
+                raise BadRequestError(self.url, _response) # type: ignore
+            elif exception.response.status_code in (409, 422, 500):
+                _response: dict[str, Any] = exception.response.json()
+                raise FailedException(self.url, exception.response.status_code, _response) # type: ignore
             else:
                 raise exception
         return response
