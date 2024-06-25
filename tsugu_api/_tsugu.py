@@ -14,7 +14,7 @@ from tsugu_api_core._typing import (
     _FuzzySearchResponse
 )
 
-def cutoff_list_of_event(main_server: _ServerId, event_id: Optional[int] = None) -> _Response:
+def cutoff_all(main_server: _ServerId, event_id: Optional[int] = None) -> _Response:
     '''查询活动排行榜全部预测线
 
     参数:
@@ -26,7 +26,7 @@ def cutoff_list_of_event(main_server: _ServerId, event_id: Optional[int] = None)
     '''
     
     # 构建 URL
-    url = settings.backend_url + '/cutoffCompare'
+    url = settings.backend_url + '/cutoffAll'
     
     # 构建数据
     data = {
@@ -72,7 +72,7 @@ def cutoff_detail(main_server: _ServerId, tier: int, event_id: Optional[int] = N
         proxy=settings.backend_proxy
     ).post(data).json()
 
-def cutoff_compare(main_server: _ServerId, tier: int, event_id: Optional[int] = None) -> _Response:
+def cutoff_list_of_recent_event(main_server: _ServerId, tier: int, event_id: Optional[int] = None) -> _Response:
     '''查询历史活动排行榜预测线
 
     参数:
@@ -85,7 +85,7 @@ def cutoff_compare(main_server: _ServerId, tier: int, event_id: Optional[int] = 
     '''
     
     # 构建 URL
-    url = settings.backend_url + '/cutoffListOfEvent'
+    url = settings.backend_url + '/cutoffListOfRecentEvent'
     
     # 构建数据
     data = {
@@ -212,7 +212,7 @@ def get_card_illustration(card_id: int) -> _Response:
         proxy=settings.backend_proxy
     ).post(data).json()
 
-@deprecated("The `lsycx` api is now deprecated, use `cutoff_compare` instead.", category=None)
+@deprecated("The `lsycx` api is now deprecated, use `cutoff_list_of_recent_event` instead.", category=None)
 def lsycx(server: _Server, tier: int, event_id: Optional[int] = None) -> _Response:
     '''查询历史排行榜预测线
 
@@ -225,14 +225,14 @@ def lsycx(server: _Server, tier: int, event_id: Optional[int] = None) -> _Respon
         _Response: 响应信息
     '''
     warnings.warn(
-        "The `lsycx` api is now deprecated, use `cutoff_compare` instead.",
+        "The `lsycx` api is now deprecated, use `cutoff_list_of_recent_event` instead.",
         DeprecationWarning
     )
     
     if not isinstance(server, int):
         raise ValueError("'server' must be an integer.")
     
-    return cutoff_compare(server, tier, event_id)
+    return cutoff_list_of_recent_event(server, tier, event_id)
 
 def room_list(room_list: List[_Room]) -> _Response:
     '''绘制车牌绘图
@@ -545,7 +545,7 @@ def ycx(server: _Server, tier: int, event_id: Optional[int] = None) -> _Response
     
     return cutoff_detail(server, tier, event_id)
 
-@deprecated("The `ycx_all` api is now deprecated, use `cutoff_list_of_event` instead.", category=None)
+@deprecated("The `ycx_all` api is now deprecated, use `cutoff_all` instead.", category=None)
 def ycx_all(server: _Server, event_id: Optional[int] = None) -> _Response:
     '''查询全挡位预测线
 
@@ -557,11 +557,11 @@ def ycx_all(server: _Server, event_id: Optional[int] = None) -> _Response:
         _Response: 响应信息
     '''
     warnings.warn(
-        "The `ycx_all` api is now deprecated, use `cutoff_list_of_event` instead.",
+        "The `ycx_all` api is now deprecated, use `cutoff_all` instead.",
         DeprecationWarning
     )
     
     if not isinstance(server, int):
         raise ValueError("'server' must be an integer.")
     
-    return cutoff_list_of_event(server, event_id)
+    return cutoff_all(server, event_id)
