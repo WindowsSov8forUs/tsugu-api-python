@@ -6,6 +6,7 @@
 
 from typing import (
     Any,
+    Dict,
     List,
     Union,
     Literal,
@@ -63,15 +64,46 @@ class _Data(TypedDict):
 
 _Response: TypeAlias = List[_Data]
 
-_DifficultyText: TypeAlias = Literal['easy', 'normal', 'hard', 'expert', 'special']
-'''难度名'''
+class _Error(TypedDict):
+    '''错误信息'''
+    type: str
+    '''错误类型'''
+    location: Literal['body', 'cookies', 'headers', 'params', 'query']
+    '''参数位置'''
+    msg: str
+    '''错误信息'''
+    path: str
+    '''参数名称'''
+    value: Any
+    '''参数值'''
 
-class _Player(TypedDict):
-    id: int
-    server: _Server
+class _BadRequestResponse(TypedDict):
+    '''参数错误响应信息'''
+    status: Literal['failed']
+    data: str
+    error: List[_Error]
+
+class _FailedResponse(TypedDict):
+    '''失败响应信息'''
+    status: Literal['failed']
+    data: str
 
 _Status: TypeAlias = Literal['success', 'failed']
 '''响应状态'''
+
+_FuzzySearchResult: TypeAlias = Dict[str, List[Union[str, int]]]
+
+class _FuzzySearchResponse(TypedDict):
+    '''`/fuzzySearch` 响应结果'''
+    status: _Status
+    data: _FuzzySearchResult
+
+_DifficultyId: TypeAlias = Literal[0, 1, 2, 3, 4]
+'''难度 ID'''
+
+class _UserPlayerInList(TypedDict):
+    id: int
+    server: _Server
 
 class _SubmitResponse(TypedDict):
     '''`/station/submitRoomNumber` 响应结果'''
@@ -85,14 +117,14 @@ class _Room(TypedDict):
     source: str
     userId: str
     time: int
-    player: NotRequired[_Player]
-    avanter: NotRequired[str]
+    player: NotRequired[_UserPlayerInList]
+    avatarUrl: NotRequired[str]
     userName: NotRequired[str]
 
 class _QueryResponse(TypedDict):
     '''`/station/queryAllRoom` 响应结果'''
     status: _Status
-    data: Union[str, List[_Room]]
+    data: List[_Room]
 
 class _TsuguUserServer(TypedDict):
     '''服务器数据'''
@@ -102,65 +134,60 @@ class _TsuguUserServer(TypedDict):
 
 class _TsuguUser(TypedDict):
     '''用户数据'''
-    user_id: str
+    userId: str
+    '''用户 ID'''
     platform: str
-    server_mode: _ServerId
-    default_server: List[_ServerId]
-    car: bool
-    server_list: List[_TsuguUserServer]
+    '''平台'''
+    mainServer: _ServerId
+    '''主服务器'''
+    displayedServerList: List[_ServerId]
+    '''显示的服务器列表'''
+    shareRoomNumber: bool
+    '''是否分享房间号'''
+    userPlayerIndex: int
+    '''用户账号索引'''
+    userPlayerList: List[_UserPlayerInList]
+    '''用户账号列表'''
 
 class _GetUserDataResponse(TypedDict):
     '''`/user/getUserData` 响应结果'''
     status: _Status
-    data: Union[str, _TsuguUser]
+    data: _TsuguUser
 
-class _Update(TypedDict):
+class _PartialTsuguUser(TypedDict):
     '''更新数据'''
-    user_id: NotRequired[str]
+    userId: NotRequired[str]
+    '''用户 ID'''
     platform: NotRequired[str]
-    server_mode: NotRequired[_ServerId]
-    default_server: NotRequired[List[_ServerId]]
-    car: NotRequired[bool]
-    server_list: NotRequired[List[_TsuguUserServer]]
+    '''平台'''
+    mainServer: NotRequired[_ServerId]
+    '''主服务器'''
+    displayedServerList: NotRequired[List[_ServerId]]
+    '''显示的服务器列表'''
+    shareRoomNumber: NotRequired[bool]
+    '''是否分享房间号'''
+    userPlayerIndex: NotRequired[int]
+    '''用户账号索引'''
+    userPlayerList: NotRequired[List[_UserPlayerInList]]
+    '''用户账号列表'''
 
 class _ChangeUserDataResponse(TypedDict):
     '''`/user/changeUserData` 响应结果'''
     status: _Status
-    data: NotRequired[str]
 
 class _VerifyCode(TypedDict):
     '''验证码'''
     verifyCode: int
 
+_BindingAction: TypeAlias = Literal['bind', 'unbind']
+'''绑定操作'''
+
 class _BindPlayerRequestResponse(TypedDict):
     '''`/user/bindPlayerRequest` 绑定响应'''
     status: _Status
-    data: Union[str, _VerifyCode]
+    data: _VerifyCode
 
 class _BindPlayerVerificationResponse(TypedDict):
     '''`/user/bindPlayerVerification` 响应结果'''
     status: _Status
     data: str
-
-class _SourceInfo(TypedDict):
-    '''来源信息'''
-    name: str
-    type: str
-
-class _UserInfo(TypedDict):
-    '''用户信息'''
-    avatar: str
-    bandori_player_brief_info: Any
-    role: int
-    type: str
-    user_id: int
-    username: str
-
-class _StationRoom(TypedDict):
-    '''车站房间数据'''
-    number: int
-    raw_message: str
-    source_info: _SourceInfo
-    time: int
-    type: str
-    user_info: _UserInfo

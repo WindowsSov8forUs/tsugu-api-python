@@ -1,11 +1,12 @@
 from typing import List
 
 from tsugu_api_core import settings
-from tsugu_api_core._network import Api
-from tsugu_api_core._typing import _StationRoom
-from tsugu_api_core.exception import RoomQueryFailure, RoomSubmitFailure
-
-BANDORI_STATION_URL = 'https://api.bandoristation.com/index.php'
+from tsugu_api_core.bandoristation._network import Api
+from tsugu_api_core.bandoristation._typing import _StationRoom
+from tsugu_api_core.bandoristation.exception import (
+    RoomQueryFailure,
+    RoomSubmitFailure
+)
 
 def submit_room_number(number: int, user_id: str, raw_message: str, source: str, token: str) -> None:
     '''上传房间号
@@ -20,7 +21,6 @@ def submit_room_number(number: int, user_id: str, raw_message: str, source: str,
     
     # 构建参数
     params = {
-        'function': 'submit_room_number',
         'number': number,
         'user_id': user_id,
         'raw_message': raw_message,
@@ -30,7 +30,7 @@ def submit_room_number(number: int, user_id: str, raw_message: str, source: str,
     
     # 发送请求
     response = Api(
-        BANDORI_STATION_URL,
+        'submit_room_number',
         proxy=settings.backend_proxy
     ).get(params).json()
     if response['status'] == 'failure':
@@ -43,16 +43,11 @@ def query_room_number() -> List[_StationRoom]:
         List[_StationRoom]: 房间信息列表
     '''
     
-    # 构建参数
-    params = {
-        'function': 'query_room_number'
-    }
-    
     # 发送请求
     response = Api(
-        BANDORI_STATION_URL,
+        'query_room_number',
         proxy=settings.backend_proxy
-    ).get(params).json()
+    ).get().json()
     if response['status'] == 'failure':
         raise RoomQueryFailure(response['response'])
     return response['response']

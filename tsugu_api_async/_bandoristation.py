@@ -3,11 +3,12 @@ from typing import List
 from httpx import Response
 
 from tsugu_api_core import settings
-from tsugu_api_core._network import Api
-from tsugu_api_core._typing import _StationRoom
-from tsugu_api_core.exception import RoomQueryFailure, RoomSubmitFailure
-
-BANDORI_STATION_URL = 'https://api.bandoristation.com/index.php'
+from tsugu_api_core.bandoristation._network import Api
+from tsugu_api_core.bandoristation._typing import _StationRoom
+from tsugu_api_core.bandoristation.exception import (
+    RoomQueryFailure,
+    RoomSubmitFailure
+)
 
 async def submit_room_number(number: int, user_id: str, raw_message: str, source: str, token: str) -> None:
     '''上传房间号
@@ -22,7 +23,6 @@ async def submit_room_number(number: int, user_id: str, raw_message: str, source
     
     # 构建参数
     params = {
-        'function': 'submit_room_number',
         'number': number,
         'user_id': user_id,
         'raw_message': raw_message,
@@ -32,7 +32,7 @@ async def submit_room_number(number: int, user_id: str, raw_message: str, source
     
     # 发送请求
     response = await Api(
-            BANDORI_STATION_URL,
+            'submit_room_number',
             proxy=settings.backend_proxy
     ).aget(params)
     if isinstance(response, Response): response = response.json()
@@ -47,16 +47,11 @@ async def query_room_number() -> List[_StationRoom]:
         List[_StationRoom]: 房间信息列表
     '''
     
-    # 构建参数
-    params = {
-        'function': 'query_room_number'
-    }
-    
     # 发送请求
     response = await Api(
-        BANDORI_STATION_URL,
+        'query_room_number',
         proxy=settings.backend_proxy
-    ).aget(params)
+    ).aget()
     if isinstance(response, Response): response = response.json()
     else: response = await response.json()
     if response['status'] == 'failure':

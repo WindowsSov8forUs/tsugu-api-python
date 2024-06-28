@@ -1,15 +1,16 @@
-'''`tsugu_api_async._network`
+'''`tsugu_api_core.bandoristation._network`
 
-向 Tsugu 后端发送请求相关模块'''
+向车站后端发送请求相关模块'''
 from json import dumps
 from typing import Any, Literal, Optional, cast
 
 from aiohttp import ClientSession
 from httpx import Client, Request, Response, AsyncClient, HTTPStatusError
 
-from . import settings
-from ._typing import _ApiResponse
-from .exception import BadRequestError, FailedException
+from tsugu_api_core import settings
+from tsugu_api_core._typing import _ApiResponse
+
+BANDORI_STATION_URL = 'https://api.bandoristation.com/index.php'
 
 # 向后端发送 API 请求类
 class Api:
@@ -18,18 +19,18 @@ class Api:
     参数:
         url (str): 请求的 URL 地址
     '''
-    url: str
-    '''请求的 API 地址'''
+    function: str
+    '''请求的方法名称'''
     proxy: bool
     '''是否使用代理服务器'''
     # 初始化
     def __init__(
         self,
-        url: str,
+        function: str,
         proxy: bool
     ) -> None:
         '''初始化'''
-        self.url = url
+        self.function = function
         self.proxy = proxy
         return
     
@@ -69,7 +70,7 @@ class Api:
                 # 构建一个请求体
                 request = Request(
                     method,
-                    self.url,
+                    BANDORI_STATION_URL,
                     params=params,
                     data=cast(dict, dumps(data)) if data is not None else data,
                     headers=headers
@@ -80,7 +81,7 @@ class Api:
             async with ClientSession() as session:
                 response = await session.request(
                     method,
-                    self.url,
+                    BANDORI_STATION_URL,
                     params=params,
                     data=cast(dict, dumps(data)) if data is not None else data,
                     headers=headers,
@@ -93,34 +94,15 @@ class Api:
                 response.raise_for_status()
             except HTTPStatusError as exception:
                 if exception.response.status_code == 400:
-                    _response: dict[str, Any] = exception.response.json()
-                    raise BadRequestError(self.url, _response) # type: ignore
-                elif exception.response.status_code in (404, 409, 422, 500):
-                    _response: dict[str, Any] = exception.response.json()
-                    raise FailedException(self.url, exception.response.status_code, _response) # type: ignore
+                    return response
                 else:
                     raise exception
         else:
             if response.status == 400:
-                _response: dict[str, Any] = await response.json()
-                raise BadRequestError(self.url, _response) # type: ignore
-            elif response.status in (404, 409, 422, 500):
-                _response: dict[str, Any] = await response.json()
-                raise FailedException(self.url, response.status, _response) # type: ignore
+                return response
             else:
                 response.raise_for_status()
         return response
-    
-    async def apost(self, data: Optional[dict[str, Any]]=None) -> _ApiResponse:
-        '''异步发送 POST 请求
-
-        参数:
-            data (Optional[dict[str, Any]]): 请求的数据
-
-        返回:
-            _ApiResponse: 收到的响应
-        '''
-        return await self._arequest('post', data=data)
     
     async def aget(self, params: Optional[dict[str, Any]]=None) -> _ApiResponse:
         '''异步发送 GET 请求
@@ -131,6 +113,12 @@ class Api:
         返回:
             _ApiResponse: 收到的响应
         '''
+        if params is None:
+            params = {
+                'function': self.function
+            }
+        else:
+            params['function'] = self.function
         return await self._arequest('get', params=params)
 
     # 请求发送
@@ -160,7 +148,7 @@ class Api:
         # 构建一个请求体
         request = Request(
             method,
-            self.url,
+            BANDORI_STATION_URL,
             params=params,
             data=cast(dict, dumps(data)) if data is not None else data,
             headers=headers
@@ -181,25 +169,10 @@ class Api:
             response.raise_for_status()
         except HTTPStatusError as exception:
             if exception.response.status_code == 400:
-                _response: dict[str, Any] = exception.response.json()
-                raise BadRequestError(self.url, _response) # type: ignore
-            elif exception.response.status_code in (409, 422, 500):
-                _response: dict[str, Any] = exception.response.json()
-                raise FailedException(self.url, exception.response.status_code, _response) # type: ignore
+                return response
             else:
                 raise exception
         return response
-    
-    def post(self, data: Optional[dict[str, Any]]=None) -> Response:
-        '''发送 POST 请求
-
-        参数:
-            data (Optional[dict[str, Any]]): 请求的数据
-
-        返回:
-            Response: 收到的响应
-        '''
-        return self._request('post', data=data)
     
     def get(self, params: Optional[dict[str, Any]]=None) -> Response:
         '''发送 GET 请求
@@ -210,4 +183,10 @@ class Api:
         返回:
             Response: 收到的响应
         '''
+        if params is None:
+            params = {
+                'function': self.function
+            }
+        else:
+            params['function'] = self.function
         return self._request('get', params=params)
