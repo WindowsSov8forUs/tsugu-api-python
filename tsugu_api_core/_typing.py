@@ -102,8 +102,8 @@ _DifficultyId: TypeAlias = Literal[0, 1, 2, 3, 4]
 '''难度 ID'''
 
 class _UserPlayerInList(TypedDict):
-    id: int
-    server: _Server
+    playerId: int
+    server: _ServerId
 
 class _SubmitResponse(TypedDict):
     '''`/station/submitRoomNumber` 响应结果'''
