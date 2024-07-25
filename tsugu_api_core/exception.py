@@ -3,14 +3,14 @@ from tsugu_api_core._typing import _FailedResponse, _BadRequestResponse
 
 class TsuguException(Exception):
     '''tsugu_api_core 异常基类'''
-    data: str = ''
+    msg: str = ''
     '''从 API 返回参数中获取的错误信息'''
-    def __init__(self, data: str) -> None:
+    def __init__(self, msg: str) -> None:
         '''初始化'''
-        self.data = data
+        self.msg = msg
     
     def __str__(self) -> str:
-        return self.data
+        return self.msg
 
 class BadRequestError(TsuguException):
     '''请求的参数错误'''
