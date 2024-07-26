@@ -32,9 +32,6 @@ def station_submit_room_number(
         _SubmitResponse: 响应信息
     '''
     
-    # 构建 URL
-    url = settings.userdata_backend_url + '/station/submitRoomNumber'
-    
     # 构建数据
     data = {
         'number': number,
@@ -51,7 +48,8 @@ def station_submit_room_number(
     
     # 发送请求
     return Api(
-        url,
+        settings.userdata_backend_url,
+        'station/submitRoomNumber',
         proxy=settings.userdata_backend_proxy
     ).post(data).json()
 
@@ -62,11 +60,9 @@ def station_query_all_room() -> _QueryResponse:
         _QueryResponse: 响应信息
     '''
     
-    # 构建 URL
-    url = settings.userdata_backend_url + '/station/queryAllRoom'
-    
     # 发送请求
     return Api(
-        url,
+        settings.userdata_backend_url,
+        'station/queryAllRoom',
         proxy=settings.userdata_backend_proxy
     ).get().json()

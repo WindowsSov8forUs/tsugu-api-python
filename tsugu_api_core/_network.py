@@ -16,20 +16,26 @@ class Api:
     '''向后端发送 API 请求类
 
     参数:
-        url (str): 请求的 URL 地址
+        host (str): 请求的主机地址
+        api (str): 请求的 API 路径
+        proxy (bool): 是否使用代理服务器
     '''
-    url: str
-    '''请求的 API 地址'''
+    host: str
+    '''请求的主机地址'''
+    api: str
+    '''请求的 API 路径'''
     proxy: bool
     '''是否使用代理服务器'''
     # 初始化
     def __init__(
         self,
-        url: str,
+        host: str,
+        api: str,
         proxy: bool
     ) -> None:
         '''初始化'''
-        self.url = url
+        self.host = host
+        self.api = api
         self.proxy = proxy
         return
     
@@ -69,7 +75,7 @@ class Api:
                 # 构建一个请求体
                 request = Request(
                     method,
-                    self.url,
+                    self.host + self.api,
                     params=params,
                     data=cast(dict, dumps(data)) if data is not None else data,
                     headers=headers
@@ -80,7 +86,7 @@ class Api:
             async with ClientSession() as session:
                 response = await session.request(
                     method,
-                    self.url,
+                    self.host + self.api,
                     params=params,
                     data=cast(dict, dumps(data)) if data is not None else data,
                     headers=headers,
@@ -94,19 +100,19 @@ class Api:
             except HTTPStatusError as exception:
                 if exception.response.status_code == 400:
                     _response: dict[str, Any] = exception.response.json()
-                    raise BadRequestError(self.url, _response) # type: ignore
+                    raise BadRequestError(self.api, _response) # type: ignore
                 elif exception.response.status_code in (404, 409, 422, 500):
                     _response: dict[str, Any] = exception.response.json()
-                    raise FailedException(self.url, exception.response.status_code, _response) # type: ignore
+                    raise FailedException(self.api, exception.response.status_code, _response) # type: ignore
                 else:
                     raise exception
         else:
             if response.status == 400:
                 _response: dict[str, Any] = await response.json()
-                raise BadRequestError(self.url, _response) # type: ignore
+                raise BadRequestError(self.api, _response) # type: ignore
             elif response.status in (404, 409, 422, 500):
                 _response: dict[str, Any] = await response.json()
-                raise FailedException(self.url, response.status, _response) # type: ignore
+                raise FailedException(self.api, response.status, _response) # type: ignore
             else:
                 response.raise_for_status()
         return response
@@ -160,7 +166,7 @@ class Api:
         # 构建一个请求体
         request = Request(
             method,
-            self.url,
+            self.host + self.api,
             params=params,
             data=cast(dict, dumps(data)) if data is not None else data,
             headers=headers
@@ -182,10 +188,10 @@ class Api:
         except HTTPStatusError as exception:
             if exception.response.status_code == 400:
                 _response: dict[str, Any] = exception.response.json()
-                raise BadRequestError(self.url, _response) # type: ignore
+                raise BadRequestError(self.api, _response) # type: ignore
             elif exception.response.status_code in (409, 422, 500):
                 _response: dict[str, Any] = exception.response.json()
-                raise FailedException(self.url, exception.response.status_code, _response) # type: ignore
+                raise FailedException(self.api, exception.response.status_code, _response) # type: ignore
             else:
                 raise exception
         return response

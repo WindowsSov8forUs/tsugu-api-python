@@ -27,9 +27,6 @@ async def cutoff_all(main_server: _ServerId, event_id: Optional[int] = None) -> 
         _Response: 响应信息
     '''
     
-    # 构建 URL
-    url = settings.backend_url + '/cutoffAll'
-    
     # 构建数据
     data = {
         'mainServer': main_server,
@@ -40,7 +37,8 @@ async def cutoff_all(main_server: _ServerId, event_id: Optional[int] = None) -> 
     
     # 发送请求
     response = await Api(
-        url,
+        settings.backend_url,
+        '/cutoffAll',
         proxy=settings.backend_proxy
     ).apost(data)
     if isinstance(response, Response): return response.json()
@@ -58,9 +56,6 @@ async def cutoff_detail(main_server: _ServerId, tier: int, event_id: Optional[in
         _Response: 响应信息
     '''
     
-    # 构建 URL
-    url = settings.backend_url + '/cutoffDetail'
-    
     # 构建数据
     data = {
         'mainServer': main_server,
@@ -72,7 +67,8 @@ async def cutoff_detail(main_server: _ServerId, tier: int, event_id: Optional[in
     
     # 发送请求
     response = await Api(
-        url,
+        settings.backend_url,
+        '/cutoffDetail',
         proxy=settings.backend_proxy
     ).apost(data)
     if isinstance(response, Response): return response.json()
@@ -90,9 +86,6 @@ async def cutoff_list_of_recent_event(main_server: _ServerId, tier: int, event_i
         _Response: 响应信息
     '''
     
-    # 构建 URL
-    url = settings.backend_url + '/cutoffListOfRecentEvent'
-    
     # 构建数据
     data = {
         'mainServer': main_server,
@@ -104,7 +97,8 @@ async def cutoff_list_of_recent_event(main_server: _ServerId, tier: int, event_i
     
     # 发送请求
     response = await Api(
-        url,
+        settings.backend_url,
+        '/cutoffListOfRecentEvent',
         proxy=settings.backend_proxy
     ).apost(data)
     if isinstance(response, Response): return response.json()
@@ -122,9 +116,6 @@ async def event_stage(main_server: _ServerId, event_id: Optional[int] = None, me
         _Response: 响应信息
     '''
     
-    # 构建 URL
-    url = settings.backend_url + '/eventStage'
-    
     # 构建数据
     data = {
         'mainServer': main_server,
@@ -136,7 +127,8 @@ async def event_stage(main_server: _ServerId, event_id: Optional[int] = None, me
     
     # 发送请求
     response = await Api(
-        url,
+        settings.backend_url,
+        '/eventStage',
         proxy=settings.backend_proxy
     ).apost(data)
     if isinstance(response, Response): return response.json()
@@ -152,9 +144,6 @@ async def fuzzy_search(text: str) -> _FuzzySearchResponse:
         _FuzzySearchResponse: 响应信息
     '''
     
-    # 构建 URL
-    url = settings.backend_url + '/fuzzySearch'
-    
     # 构建数据
     data = {
         'text': text,
@@ -163,7 +152,8 @@ async def fuzzy_search(text: str) -> _FuzzySearchResponse:
     
     # 发送请求
     response = await Api(
-        url,
+        settings.backend_url,
+        '/fuzzySearch',
         proxy=settings.backend_proxy
     ).apost(data)
     if isinstance(response, Response): return response.json()
@@ -181,9 +171,6 @@ async def gacha_simulate(main_server: _ServerId, times: Optional[int] = None, ga
         _Response: 响应信息
     '''
     
-    # 构建 URL
-    url = settings.backend_url + '/gachaSimulate'
-    
     # 构建数据
     data = {
         'mainServer': main_server,
@@ -196,7 +183,8 @@ async def gacha_simulate(main_server: _ServerId, times: Optional[int] = None, ga
     
     # 发送请求
     response = await Api(
-        url,
+        settings.backend_url,
+        '/gachaSimulate',
         proxy=settings.backend_proxy
     ).apost(data)
     if isinstance(response, Response): return response.json()
@@ -212,9 +200,6 @@ async def get_card_illustration(card_id: int) -> _Response:
         _Response: 响应信息
     '''
     
-    # 构建 URL
-    url = settings.backend_url + '/getCardIllustration'
-    
     # 构建数据
     data = {
         'cardId': str(card_id)
@@ -222,7 +207,8 @@ async def get_card_illustration(card_id: int) -> _Response:
     
     # 发送请求
     response = await Api(
-        url,
+        settings.backend_url,
+        '/getCardIllustration',
         proxy=settings.backend_proxy
     ).apost(data)
     if isinstance(response, Response): return response.json()
@@ -260,9 +246,6 @@ async def room_list(room_list: List[_Room]) -> _Response:
         _Response: 响应信息
     '''
     
-    # 构建 URL
-    url = settings.backend_url + '/roomList'
-    
     # 构建数据
     data = {
         'roomList': room_list,
@@ -271,7 +254,8 @@ async def room_list(room_list: List[_Room]) -> _Response:
     
     # 发送请求
     response = await Api(
-        url,
+        settings.backend_url,
+        '/roomList',
         proxy=settings.backend_proxy
     ).apost(data)
     if isinstance(response, Response): return response.json()
@@ -293,9 +277,6 @@ async def search_card(
         _Response: 响应信息
     '''
     
-    # 构建 URL
-    url = settings.backend_url + '/searchCard'
-    
     # 构建数据
     data = {
         'displayedServerList': displayed_server_list,
@@ -309,7 +290,8 @@ async def search_card(
     
     # 发送请求
     response = await Api(
-        url,
+        settings.backend_url,
+        '/searchCard',
         proxy=settings.backend_proxy
     ).apost(data)
     if isinstance(response, Response): return response.json()
@@ -331,9 +313,6 @@ async def search_character(
         _Response: 响应信息
     '''
     
-    # 构建 URL
-    url = settings.backend_url + '/searchCharacter'
-    
     # 构建数据
     data = {
         'displayedServerList': displayed_server_list,
@@ -346,7 +325,8 @@ async def search_character(
     
     # 发送请求
     response = await Api(
-        url,
+        settings.backend_url,
+        '/searchCharacter',
         proxy=settings.backend_proxy
     ).apost(data)
     if isinstance(response, Response): return response.json()
@@ -368,9 +348,6 @@ async def search_event(
         _Response: 响应信息
     '''
     
-    # 构建 URL
-    url = settings.backend_url + '/searchEvent'
-    
     # 构建数据
     data = {
         'displayedServerList': displayed_server_list,
@@ -384,7 +361,8 @@ async def search_event(
     
     # 发送请求
     response = await Api(
-        url,
+        settings.backend_url,
+        '/searchEvent',
         proxy=settings.backend_proxy
     ).apost(data)
     if isinstance(response, Response): return response.json()
@@ -404,9 +382,6 @@ async def search_gacha(
         _Response: 响应信息
     '''
     
-    # 构建 URL
-    url = settings.backend_url + '/searchGacha'
-    
     # 构建数据
     data = {
         'displayedServerList': displayed_server_list,
@@ -417,7 +392,8 @@ async def search_gacha(
     
     # 发送请求
     response = await Api(
-        url,
+        settings.backend_url,
+        '/searchGacha',
         proxy=settings.backend_proxy
     ).apost(data)
     if isinstance(response, Response): return response.json()
@@ -434,9 +410,6 @@ async def search_player(player_id: int, main_server: _ServerId) -> _Response:
         _Response: 响应信息
     '''
     
-    # 构建 URL
-    url = settings.backend_url + '/searchPlayer'
-    
     # 构建数据
     data = {
         'playerId': player_id,
@@ -447,7 +420,8 @@ async def search_player(player_id: int, main_server: _ServerId) -> _Response:
     
     # 发送请求
     response = await Api(
-        url,
+        settings.backend_url,
+        '/searchPlayer',
         proxy=settings.backend_proxy
     ).apost(data)
     if isinstance(response, Response): return response.json()
@@ -469,9 +443,6 @@ async def search_song(
         _Response: 响应信息
     '''
     
-    # 构建 URL
-    url = settings.backend_url + '/searchSong'
-    
     # 构建数据
     data = {
         'displayedServerList': displayed_server_list,
@@ -484,7 +455,8 @@ async def search_song(
     
     # 发送请求
     response = await Api(
-        url,
+        settings.backend_url,
+        '/searchSong',
         proxy=settings.backend_proxy
     ).apost(data)
     if isinstance(response, Response): return response.json()
@@ -506,9 +478,6 @@ async def song_chart(
         _Response: 响应信息
     '''
     
-    # 构建 URL
-    url = settings.backend_url + '/songChart'
-    
     # 构建数据
     data = {
         'displayedServerList': displayed_server_list,
@@ -519,7 +488,8 @@ async def song_chart(
     
     # 发送请求
     response = await Api(
-        url,
+        settings.backend_url,
+        '/songChart',
         proxy=settings.backend_proxy
     ).apost(data)
     if isinstance(response, Response): return response.json()
@@ -539,9 +509,6 @@ async def song_meta(
         _Response: 响应信息
     '''
     
-    # 构建 URL
-    url = settings.backend_url + '/songMeta'
-    
     # 构建数据
     data = {
         'displayedServerList': displayed_server_list,
@@ -551,7 +518,8 @@ async def song_meta(
     
     # 发送请求
     response = await Api(
-        url,
+        settings.backend_url,
+        '/songMeta',
         proxy=settings.backend_proxy
     ).apost(data)
     if isinstance(response, Response): return response.json()

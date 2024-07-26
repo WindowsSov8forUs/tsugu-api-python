@@ -29,7 +29,7 @@ class BadRequestError(TsuguException):
                 f"\tGot a wrong value '{str(error['value'])}' for {error['type']} parameter '{error['path']}' in {error['location']}: {error['msg']}."
             )
         
-        super().__init__(f'API {api} got wrong parameters:\n' + '\n'.join(error_messages))
+        super().__init__(f"API '{api}' got wrong parameters:\n" + '\n'.join(error_messages))
         
         return
 
@@ -47,7 +47,7 @@ class FailedException(TsuguException):
         self.status_code = status_code
         self.response = response
         
-        super().__init__(f'API {api} failed ({status_code}) : {response["data"]}')
+        super().__init__(f"API '{api}' failed ({status_code}) : {response['data']}")
         
         return
     

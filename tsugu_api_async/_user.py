@@ -23,9 +23,6 @@ async def get_user_data(platform: str, user_id: str) -> _GetUserDataResponse:
         _GetUserDataResponse: API 返回响应
     '''
     
-    # 构建 URL
-    url = settings.userdata_backend_url + '/user/getUserData'
-    
     # 构建数据
     data = {
         'platform': platform,
@@ -34,7 +31,8 @@ async def get_user_data(platform: str, user_id: str) -> _GetUserDataResponse:
     
     # 发送请求
     response = await Api(
-        url,
+        settings.userdata_backend_url,
+        '/user/getUserData',
         proxy=settings.userdata_backend_proxy
     ).apost(data)
     if isinstance(response, Response): return response.json()
@@ -52,9 +50,6 @@ async def change_user_data(platform: str, user_id: str, update: _PartialTsuguUse
         _ChangeUserDataResponse: API 返回响应
     '''
     
-    # 构建 URL
-    url = settings.userdata_backend_url + '/user/changeUserData'
-    
     # 构建数据
     data = {
         'platform': platform,
@@ -64,7 +59,8 @@ async def change_user_data(platform: str, user_id: str, update: _PartialTsuguUse
     
     # 发送请求
     response = await Api(
-        url,
+        settings.userdata_backend_url,
+        '/user/changeUserData',
         proxy=settings.userdata_backend_proxy
     ).apost(data)
     if isinstance(response, Response): return response.json()
@@ -84,9 +80,6 @@ async def bind_player_request(
         _BindPlayerRequestResponse: 请求返回数据
     '''
     
-    # 构建 URL
-    url = settings.userdata_backend_url + '/user/bindPlayerRequest'
-    
     # 构建数据
     data = {
         'platform': platform,
@@ -95,7 +88,8 @@ async def bind_player_request(
     
     # 发送请求
     response = await Api(
-        url,
+        settings.userdata_backend_url,
+        '/user/bindPlayerRequest',
         proxy=settings.userdata_backend_proxy
     ).apost(data)
     if isinstance(response, Response): return response.json()
@@ -121,9 +115,6 @@ async def bind_player_verification(
         _BindPlayerVerificationResponse: 验证返回数据
     '''
     
-    # 构建 URL
-    url = settings.userdata_backend_url + '/user/bindPlayerVerification'
-    
     # 构建数据
     data = {
         'platform': platform,
@@ -135,7 +126,8 @@ async def bind_player_verification(
     
     # 发送请求
     response = await Api(
-        url,
+        settings.userdata_backend_url,
+        '/user/bindPlayerVerification',
         proxy=settings.userdata_backend_proxy
     ).apost(data)
     if isinstance(response, Response): return response.json()

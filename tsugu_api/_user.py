@@ -21,9 +21,6 @@ def get_user_data(platform: str, user_id: str) -> _GetUserDataResponse:
         _GetUserDataResponse: API 返回响应
     '''
     
-    # 构建 URL
-    url = settings.userdata_backend_url + '/user/getUserData'
-    
     # 构建数据
     data = {
         'platform': platform,
@@ -32,7 +29,8 @@ def get_user_data(platform: str, user_id: str) -> _GetUserDataResponse:
     
     # 发送请求
     return Api(
-        url,
+        settings.userdata_backend_url,
+        '/user/getUserData',
         proxy=settings.userdata_backend_proxy
     ).post(data).json()
 
@@ -48,9 +46,6 @@ def change_user_data(platform: str, user_id: str, update: _PartialTsuguUser) -> 
         _ChangeUserDataResponse: API 返回响应
     '''
     
-    # 构建 URL
-    url = settings.userdata_backend_url + '/user/changeUserData'
-    
     # 构建数据
     data = {
         'platform': platform,
@@ -60,7 +55,8 @@ def change_user_data(platform: str, user_id: str, update: _PartialTsuguUser) -> 
     
     # 发送请求
     return Api(
-        url,
+        settings.userdata_backend_url,
+        '/user/changeUserData',
         proxy=settings.userdata_backend_proxy
     ).post(data).json()
 
@@ -78,9 +74,6 @@ def bind_player_request(
         _BindPlayerRequestResponse: 请求返回数据
     '''
     
-    # 构建 URL
-    url = settings.userdata_backend_url + '/user/bindPlayerRequest'
-    
     # 构建数据
     data = {
         'platform': platform,
@@ -89,7 +82,8 @@ def bind_player_request(
     
     # 发送请求
     return Api(
-        url,
+        settings.userdata_backend_url,
+        '/user/bindPlayerRequest',
         proxy=settings.userdata_backend_proxy,
     ).post(data).json()
 
@@ -113,9 +107,6 @@ def bind_player_verification(
         _BindPlayerVerificationResponse: 验证返回数据
     '''
     
-    # 构建 URL
-    url = settings.userdata_backend_url + '/user/bindPlayerVerification'
-    
     # 构建数据
     data = {
         'platform': platform,
@@ -127,6 +118,7 @@ def bind_player_verification(
     
     # 发送请求
     return Api(
-        url,
+        settings.userdata_backend_url,
+        '/user/bindPlayerVerification',
         proxy=settings.userdata_backend_proxy
     ).post(data).json()
