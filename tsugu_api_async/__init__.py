@@ -21,6 +21,7 @@ from ._tsugu import song_chart as song_chart
 from ._tsugu import event_stage as event_stage
 from ._tsugu import search_card as search_card
 from ._tsugu import search_song as search_song
+from ._tsugu import song_random as song_random
 from ._tsugu import fuzzy_search as fuzzy_search
 from ._tsugu import search_event as search_event
 from ._tsugu import search_gacha as search_gacha
