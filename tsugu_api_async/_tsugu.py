@@ -525,6 +525,42 @@ async def song_meta(
     if isinstance(response, Response): return response.json()
     return await response.json()
 
+async def song_random(
+    main_server: _ServerId,
+    fuzzy_search_result: Optional[_FuzzySearchResult] = None,
+    text: Optional[str] = None
+) -> _Response:
+    '''随机歌曲
+
+    参数:
+        main_server (_ServerId): 主服务器
+        fuzzy_search_result (_FuzzySearchResult): 模糊搜索结果，与 `text` 二选一
+        text (str): 查询参数，与 `fuzzy_search_result` 二选一
+
+    返回:
+        _Response: 响应信息
+    '''
+    
+    # 构建数据
+    data = {
+        'mainServer': main_server,
+        'useEasyBG': settings.use_easy_bg,
+        'compress': settings.compress
+    }
+    if fuzzy_search_result:
+        data['fuzzySearchResult'] = fuzzy_search_result
+    if text:
+        data['text'] = text
+    
+    # 发送请求
+    response = await Api(
+        settings.backend_url,
+        '/songRandom',
+        proxy=settings.backend_proxy
+    ).apost(data)
+    if isinstance(response, Response): return response.json()
+    return await response.json()
+
 @deprecated("The `ycx` api is now deprecated, use `cutoff_detail` instead.", category=None)
 async def ycx(server: _Server, tier: int, event_id: Optional[int] = None) -> _Response:
     '''查询排行榜预测线
