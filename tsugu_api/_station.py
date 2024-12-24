@@ -49,7 +49,7 @@ def station_submit_room_number(
     # 发送请求
     return Api(
         settings.userdata_backend_url,
-        'station/submitRoomNumber',
+        '/station/submitRoomNumber',
         proxy=settings.userdata_backend_proxy
     ).post(data).json()
 
@@ -63,6 +63,6 @@ def station_query_all_room() -> _QueryResponse:
     # 发送请求
     return Api(
         settings.userdata_backend_url,
-        'station/queryAllRoom',
+        '/station/queryAllRoom',
         proxy=settings.userdata_backend_proxy
     ).get().json()

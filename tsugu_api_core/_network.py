@@ -34,7 +34,7 @@ class Api:
         proxy: bool
     ) -> None:
         '''初始化'''
-        self.host = host
+        self.host = host.rstrip('/')
         self.api = api
         self.proxy = proxy
         return

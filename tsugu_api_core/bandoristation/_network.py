@@ -10,7 +10,7 @@ from httpx import Client, Request, Response, AsyncClient, HTTPStatusError
 from tsugu_api_core import settings
 from tsugu_api_core._typing import _ApiResponse
 
-BANDORI_STATION_URL = 'https://api.bandoristation.com/index.php'
+BANDORI_STATION_URL = 'https://api.bandoristation.com/'
 
 # 向后端发送 API 请求类
 class Api:
