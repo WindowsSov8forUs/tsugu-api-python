@@ -100,10 +100,10 @@ class Api:
             except HTTPStatusError as exception:
                 if exception.response.status_code == 400:
                     _response: dict[str, Any] = exception.response.json()
-                    raise BadRequestError(self.api, _response) # type: ignore
+                    raise BadRequestError(self.api, _response) from exception # type: ignore
                 elif exception.response.status_code in (404, 409, 422, 500):
                     _response: dict[str, Any] = exception.response.json()
-                    raise FailedException(self.api, exception.response.status_code, _response) # type: ignore
+                    raise FailedException(self.api, exception.response.status_code, _response) from exception # type: ignore
                 else:
                     raise exception
         else:
@@ -188,10 +188,10 @@ class Api:
         except HTTPStatusError as exception:
             if exception.response.status_code == 400:
                 _response: dict[str, Any] = exception.response.json()
-                raise BadRequestError(self.api, _response) # type: ignore
+                raise BadRequestError(self.api, _response) from exception # type: ignore
             elif exception.response.status_code in (409, 422, 500):
                 _response: dict[str, Any] = exception.response.json()
-                raise FailedException(self.api, exception.response.status_code, _response) # type: ignore
+                raise FailedException(self.api, exception.response.status_code, _response) from exception # type: ignore
             else:
                 raise exception
         return response
