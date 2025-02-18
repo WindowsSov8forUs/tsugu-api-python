@@ -1,9 +1,9 @@
 from tsugu_api_core import settings
 from tsugu_api_core._network import Api
 from tsugu_api_core._typing import (
-    _ServerId,
+    ServerId,
     _BindingAction,
-    _PartialTsuguUser,
+    PartialTsuguUser,
     _GetUserDataResponse,
     _ChangeUserDataResponse,
     _BindPlayerRequestResponse,
@@ -34,7 +34,7 @@ def get_user_data(platform: str, user_id: str) -> _GetUserDataResponse:
         proxy=settings.userdata_backend_proxy
     ).post(data).json()
 
-def change_user_data(platform: str, user_id: str, update: _PartialTsuguUser) -> _ChangeUserDataResponse:
+def change_user_data(platform: str, user_id: str, update: PartialTsuguUser) -> _ChangeUserDataResponse:
     '''修改用户数据
 
     参数:
@@ -90,7 +90,7 @@ def bind_player_request(
 def bind_player_verification(
     platform: str,
     user_id: str,
-    server: _ServerId,
+    server: ServerId,
     player_id: int,
     binding_action: _BindingAction
 ) -> _BindPlayerVerificationResponse:

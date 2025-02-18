@@ -6,15 +6,15 @@ from tsugu_api_core import settings
 from tsugu_api_core._network import Api
 from tsugu_api_core._typing import (
     _Room,
-    _Server,
+    Server,
+    ServerId,
     _Response,
-    _ServerId,
     _DifficultyId,
-    _FuzzySearchResult,
+    FuzzySearchResult,
     _FuzzySearchResponse
 )
 
-def cutoff_all(main_server: _ServerId, event_id: Optional[int] = None) -> _Response:
+def cutoff_all(main_server: ServerId, event_id: Optional[int] = None) -> _Response:
     '''查询活动排行榜全部预测线
 
     参数:
@@ -40,7 +40,7 @@ def cutoff_all(main_server: _ServerId, event_id: Optional[int] = None) -> _Respo
         proxy=settings.backend_proxy
     ).post(data).json()
 
-def cutoff_detail(main_server: _ServerId, tier: int, event_id: Optional[int] = None) -> _Response:
+def cutoff_detail(main_server: ServerId, tier: int, event_id: Optional[int] = None) -> _Response:
     '''查询活动排行榜预测线
 
     参数:
@@ -68,7 +68,7 @@ def cutoff_detail(main_server: _ServerId, tier: int, event_id: Optional[int] = N
         proxy=settings.backend_proxy
     ).post(data).json()
 
-def cutoff_list_of_recent_event(main_server: _ServerId, tier: int, event_id: Optional[int] = None) -> _Response:
+def cutoff_list_of_recent_event(main_server: ServerId, tier: int, event_id: Optional[int] = None) -> _Response:
     '''查询历史活动排行榜预测线
 
     参数:
@@ -96,7 +96,7 @@ def cutoff_list_of_recent_event(main_server: _ServerId, tier: int, event_id: Opt
         proxy=settings.backend_proxy
     ).post(data).json()
 
-def event_stage(main_server: _ServerId, event_id: Optional[int] = None, meta: bool = False) -> _Response:
+def event_stage(main_server: ServerId, event_id: Optional[int] = None, meta: bool = False) -> _Response:
     '''查询团队 LIVE 佳节活动舞台数据
 
     参数:
@@ -147,7 +147,7 @@ def fuzzy_search(text: str) -> _FuzzySearchResponse:
         proxy=settings.backend_proxy
     ).post(data).json()
 
-def gacha_simulate(main_server: _ServerId, times: Optional[int] = None, gacha_id: Optional[int] = None) -> _Response:
+def gacha_simulate(main_server: ServerId, times: Optional[int] = None, gacha_id: Optional[int] = None) -> _Response:
     '''模拟抽卡
 
     参数:
@@ -199,7 +199,7 @@ def get_card_illustration(card_id: int) -> _Response:
     ).post(data).json()
 
 @deprecated("The `lsycx` api is now deprecated, use `cutoff_list_of_recent_event` instead.", category=None)
-def lsycx(server: _Server, tier: int, event_id: Optional[int] = None) -> _Response:
+def lsycx(server: Server, tier: int, event_id: Optional[int] = None) -> _Response:
     '''查询历史排行榜预测线
 
     参数:
@@ -244,9 +244,9 @@ def room_list(room_list: List[_Room]) -> _Response:
     ).post(data).json()
 
 def search_card(
-    displayed_server_list: Sequence[_ServerId],
+    displayed_server_list: Sequence[ServerId],
     text: Optional[str] = None,
-    fuzzy_search_result: Optional[_FuzzySearchResult] = None
+    fuzzy_search_result: Optional[FuzzySearchResult] = None
 ) -> _Response:
     '''查询卡片
 
@@ -278,8 +278,8 @@ def search_card(
     ).post(data).json()
 
 def search_character(
-    displayed_server_list: Sequence[_ServerId],
-    fuzzy_search_result: Optional[_FuzzySearchResult] = None,
+    displayed_server_list: Sequence[ServerId],
+    fuzzy_search_result: Optional[FuzzySearchResult] = None,
     text: Optional[str] = None
 ) -> _Response:
     '''查询角色
@@ -311,8 +311,8 @@ def search_character(
     ).post(data).json()
 
 def search_event(
-    displayed_server_list: Sequence[_ServerId],
-    fuzzy_search_result: Optional[_FuzzySearchResult] = None,
+    displayed_server_list: Sequence[ServerId],
+    fuzzy_search_result: Optional[FuzzySearchResult] = None,
     text: Optional[str] = None
 ) -> _Response:
     '''查询活动
@@ -345,7 +345,7 @@ def search_event(
     ).post(data).json()
 
 def search_gacha(
-    displayed_server_list: Sequence[_ServerId],
+    displayed_server_list: Sequence[ServerId],
     gacha_id: int
 ) -> _Response:
     '''查询卡池
@@ -373,7 +373,7 @@ def search_gacha(
         proxy=settings.backend_proxy
     ).post(data).json()
 
-def search_player(player_id: int, main_server: _ServerId) -> _Response:
+def search_player(player_id: int, main_server: ServerId) -> _Response:
     '''查询玩家状态
 
     参数:
@@ -400,8 +400,8 @@ def search_player(player_id: int, main_server: _ServerId) -> _Response:
     ).post(data).json()
 
 def search_song(
-    displayed_server_list: Sequence[_ServerId],
-    fuzzy_search_result: Optional[_FuzzySearchResult] = None,
+    displayed_server_list: Sequence[ServerId],
+    fuzzy_search_result: Optional[FuzzySearchResult] = None,
     text: Optional[str] = None
 ) -> _Response:
     '''查询歌曲
@@ -433,7 +433,7 @@ def search_song(
     ).post(data).json()
 
 def song_chart(
-    displayed_server_list: Sequence[_ServerId],
+    displayed_server_list: Sequence[ServerId],
     song_id: int,
     difficulty_id: _DifficultyId
 ) -> _Response:
@@ -464,8 +464,8 @@ def song_chart(
     ).post(data).json()
 
 def song_meta(
-    displayed_server_list: Sequence[_ServerId],
-    main_server: _ServerId
+    displayed_server_list: Sequence[ServerId],
+    main_server: ServerId
 ) -> _Response:
     '''查询歌曲分数表
 
@@ -492,8 +492,8 @@ def song_meta(
     ).post(data).json()
 
 def song_random(
-    main_server: _ServerId,
-    fuzzy_search_result: Optional[_FuzzySearchResult] = None,
+    main_server: ServerId,
+    fuzzy_search_result: Optional[FuzzySearchResult] = None,
     text: Optional[str] = None
 ) -> _Response:
     '''随机歌曲
@@ -526,7 +526,7 @@ def song_random(
     ).post(data).json()
 
 @deprecated("The `ycx` api is now deprecated, use `cutoff_detail` instead.", category=None)
-def ycx(server: _Server, tier: int, event_id: Optional[int] = None) -> _Response:
+def ycx(server: Server, tier: int, event_id: Optional[int] = None) -> _Response:
     '''查询排行榜预测线
 
     参数:
@@ -548,7 +548,7 @@ def ycx(server: _Server, tier: int, event_id: Optional[int] = None) -> _Response
     return cutoff_detail(server, tier, event_id)
 
 @deprecated("The `ycx_all` api is now deprecated, use `cutoff_all` instead.", category=None)
-def ycx_all(server: _Server, event_id: Optional[int] = None) -> _Response:
+def ycx_all(server: Server, event_id: Optional[int] = None) -> _Response:
     '''查询全挡位预测线
 
     参数:

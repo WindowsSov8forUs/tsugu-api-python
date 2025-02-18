@@ -3,9 +3,9 @@ from httpx import Response
 from tsugu_api_core import settings
 from tsugu_api_core._network import Api
 from tsugu_api_core._typing import (
-    _ServerId,
+    ServerId,
     _BindingAction,
-    _PartialTsuguUser,
+    PartialTsuguUser,
     _GetUserDataResponse,
     _ChangeUserDataResponse,
     _BindPlayerRequestResponse,
@@ -38,7 +38,7 @@ async def get_user_data(platform: str, user_id: str) -> _GetUserDataResponse:
     if isinstance(response, Response): return response.json()
     return await response.json()
 
-async def change_user_data(platform: str, user_id: str, update: _PartialTsuguUser) -> _ChangeUserDataResponse:
+async def change_user_data(platform: str, user_id: str, update: PartialTsuguUser) -> _ChangeUserDataResponse:
     '''修改用户数据
 
     参数:
@@ -98,7 +98,7 @@ async def bind_player_request(
 async def bind_player_verification(
     platform: str,
     user_id: str,
-    server: _ServerId,
+    server: ServerId,
     player_id: int,
     binding_action: _BindingAction
 ) -> _BindPlayerVerificationResponse:

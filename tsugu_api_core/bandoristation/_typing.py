@@ -20,7 +20,7 @@ class _UserInfo(TypedDict):
     user_id: int
     username: str
 
-class _StationRoom(TypedDict):
+class StationRoom(TypedDict):
     '''车站房间数据'''
     number: int
     raw_message: str

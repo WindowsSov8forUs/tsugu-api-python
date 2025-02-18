@@ -2,7 +2,7 @@ from typing import List
 
 from tsugu_api_core import settings
 from tsugu_api_core.bandoristation._network import Api
-from tsugu_api_core.bandoristation._typing import _StationRoom
+from tsugu_api_core.bandoristation._typing import StationRoom
 from tsugu_api_core.bandoristation.exception import (
     RoomQueryFailure,
     RoomSubmitFailure
@@ -36,11 +36,11 @@ def submit_room_number(number: int, user_id: str, raw_message: str, source: str,
     if response['status'] == 'failure':
         raise RoomSubmitFailure(response['response'])
 
-def query_room_number() -> List[_StationRoom]:
+def query_room_number() -> List[StationRoom]:
     '''获取房间号
 
     返回:
-        List[_StationRoom]: 房间信息列表
+        List[StationRoom]: 房间信息列表
     '''
     
     # 发送请求

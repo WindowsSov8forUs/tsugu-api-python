@@ -1,14 +1,15 @@
 '''
 `tsugu_api_core.utils` Tsugu API 工具模块
 '''
-from tsugu_api_core.bandoristation._typing import _StationRoom
+
+from tsugu_api_core.bandoristation._typing import StationRoom
 from tsugu_api_core._typing import (
     _Room,
-    _ServerId,
-    _ServerName
+    ServerId,
+    ServerName
 )
 
-def string_to_server_code(server: str) -> _ServerId:
+def string_to_server_code(server: str) -> ServerId:
     if server == 'jp':
         return 0
     elif server == 'en':
@@ -32,7 +33,7 @@ def string_to_server_code(server: str) -> _ServerId:
     else:
         raise ValueError('服务器名称不存在')
 
-def int_to_server_short(server: int) -> _ServerName:
+def int_to_server_short(server: int) -> ServerName:
     if server == 0:
         return 'jp'
     elif server == 1:
@@ -60,7 +61,7 @@ def int_to_server_full(server: int) -> str:
     else:
         raise ValueError('服务器代码不存在')
 
-def station_room_to_tsugu(station_room: _StationRoom) -> _Room:
+def station_room_to_tsugu(station_room: StationRoom) -> _Room:
     room: _Room = {
         'number': station_room['number'],
         'rawMessage': station_room['raw_message'],
@@ -68,7 +69,7 @@ def station_room_to_tsugu(station_room: _StationRoom) -> _Room:
         'userId': str(station_room['user_info']['user_id']),
         'time': station_room['time'],
         'avatarUrl': station_room['user_info']['avatar'],
-        'userName': station_room['user_info']['username']
+        'userName': station_room['user_info']['username'],
     }
     return room
 
@@ -76,5 +77,5 @@ __all__ = [
     'string_to_server_code',
     'int_to_server_short',
     'int_to_server_full',
-    'station_room_to_tsugu'
+    'station_room_to_tsugu',
 ]

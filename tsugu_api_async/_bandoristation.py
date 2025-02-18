@@ -4,7 +4,7 @@ from httpx import Response
 
 from tsugu_api_core import settings
 from tsugu_api_core.bandoristation._network import Api
-from tsugu_api_core.bandoristation._typing import _StationRoom
+from tsugu_api_core.bandoristation._typing import StationRoom
 from tsugu_api_core.bandoristation.exception import (
     RoomQueryFailure,
     RoomSubmitFailure
@@ -40,7 +40,7 @@ async def submit_room_number(number: int, user_id: str, raw_message: str, source
     if response['status'] == 'failure':
         raise RoomSubmitFailure(response['response'])
 
-async def query_room_number() -> List[_StationRoom]:
+async def query_room_number() -> List[StationRoom]:
     '''获取房间号
 
     返回:

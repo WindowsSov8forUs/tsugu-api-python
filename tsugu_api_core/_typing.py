@@ -11,16 +11,12 @@ from typing import (
     Union,
     Literal,
     TypeAlias,
-    TypedDict
+    TypedDict,
+    TypeGuard,
 )
 from typing_extensions import NotRequired
 
-from httpx import Response
-from aiohttp import ClientResponse
-
-_ApiResponse: TypeAlias = Union[Response, ClientResponse]
-
-_ServerId: TypeAlias = Literal[0, 1, 2, 3, 4]
+ServerId: TypeAlias = Literal[0, 1, 2, 3, 4]
 '''
 服务器 ID
 
@@ -32,7 +28,7 @@ _ServerId: TypeAlias = Literal[0, 1, 2, 3, 4]
     4: 韩服
 '''
 SERVER_ID = (0, 1, 2, 3, 4)
-_ServerName: TypeAlias = Literal['jp', 'en', 'tw', 'cn', 'kr']
+ServerName: TypeAlias = Literal['jp', 'en', 'tw', 'cn', 'kr']
 '''
 服务器名
 
@@ -44,14 +40,14 @@ _ServerName: TypeAlias = Literal['jp', 'en', 'tw', 'cn', 'kr']
     'kr': 韩服
 '''
 SERVER_NAME = ('jp', 'en', 'tw', 'cn', 'kr')
-_Server: TypeAlias = Union[_ServerId, _ServerName]
+Server: TypeAlias = Union[ServerId, ServerName]
 '''服务器'''
 SERVER = (0, 1, 2, 3, 4, 'jp', 'en', 'tw', 'cn', 'kr')
 
-def is_server(server: Any) -> bool:
+def is_server(server: Any) -> TypeGuard[Server]:
     return server in SERVER
 
-def is_server_list(server_list: List[Any]) -> bool:
+def is_server_list(server_list: List[Any]) -> TypeGuard[List[Server]]:
     for server in server_list:
         if not is_server(server):
             return False
@@ -91,19 +87,19 @@ class _FailedResponse(TypedDict):
 _Status: TypeAlias = Literal['success', 'failed']
 '''响应状态'''
 
-_FuzzySearchResult: TypeAlias = Dict[str, List[Union[str, int]]]
+FuzzySearchResult: TypeAlias = Dict[str, List[Union[str, int]]]
 
 class _FuzzySearchResponse(TypedDict):
     '''`/fuzzySearch` 响应结果'''
     status: _Status
-    data: _FuzzySearchResult
+    data: FuzzySearchResult
 
 _DifficultyId: TypeAlias = Literal[0, 1, 2, 3, 4]
 '''难度 ID'''
 
 class _UserPlayerInList(TypedDict):
     playerId: int
-    server: _ServerId
+    server: ServerId
 
 class _SubmitResponse(TypedDict):
     '''`/station/submitRoomNumber` 响应结果'''
@@ -138,9 +134,9 @@ class _TsuguUser(TypedDict):
     '''用户 ID'''
     platform: str
     '''平台'''
-    mainServer: _ServerId
+    mainServer: ServerId
     '''主服务器'''
-    displayedServerList: List[_ServerId]
+    displayedServerList: List[ServerId]
     '''显示的服务器列表'''
     shareRoomNumber: bool
     '''是否分享房间号'''
@@ -154,15 +150,15 @@ class _GetUserDataResponse(TypedDict):
     status: _Status
     data: _TsuguUser
 
-class _PartialTsuguUser(TypedDict):
+class PartialTsuguUser(TypedDict):
     '''更新数据'''
     userId: NotRequired[str]
     '''用户 ID'''
     platform: NotRequired[str]
     '''平台'''
-    mainServer: NotRequired[_ServerId]
+    mainServer: NotRequired[ServerId]
     '''主服务器'''
-    displayedServerList: NotRequired[List[_ServerId]]
+    displayedServerList: NotRequired[List[ServerId]]
     '''显示的服务器列表'''
     shareRoomNumber: NotRequired[bool]
     '''是否分享房间号'''

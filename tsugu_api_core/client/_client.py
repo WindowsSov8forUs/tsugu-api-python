@@ -38,7 +38,7 @@ class Response:
         self.exception = exception
         '''异常'''
     
-    def json(self, **kwargs: Any) -> Dict[str, Any]:
+    def json(self, **kwargs: Any) -> Any:
         '''解析 JSON 响应内容'''
         return loads(self.content, **kwargs)
 
