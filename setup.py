@@ -5,7 +5,7 @@ with open('README.md', 'r', encoding='utf-8') as readme:
 
 setup(
     name='tsugu-api-python',
-    version='1.4.2',
+    version='1.5.0',
     author='WindowsSov8',
     author_email='qwertyuiop2333@hotmail.com',
     description='Tsugu BanGDream Bot 的功能 API 统合包',
@@ -22,8 +22,6 @@ setup(
     ],
     python_requires='>=3.8',
     install_requires=[
-        'httpx>=0.22.0',
-        'aiohttp>=3.8.1',
         'typing_extensions>=4.5.0'
     ]
 )

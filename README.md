@@ -141,3 +141,102 @@ main()
 ```
 
 > 异步版本的调用方式相同，只是将 `tsugu_api` 改为 `tsugu_api_async` 即可。
+
+### 注册自定义 HTTP 客户端
+
+在 `1.5.0` 以后版本， `tsugu-api-python` 将不再强制要求安装 `httpx` 与 `aiohttp` 库，并允许用户自己实现用于请求的 HTTP 客户端。 `tsugu-api-python` 内部提供对于 `httpx` 与 `aiohttp` 的客户端实现。
+
+用户可通过实现 `tsugu_api_core.client.Client` 类，并通过 `tsugu_api_core.register_client` 方法注册。注册后 `tsugu-api-python` 将不会根据 `settings` 中的 `client` 配置选择客户端实现，而是使用用户提供的自定义客户端实现。
+
+以下给出一个实现基于 `requests` 请求库的客户端实现。
+
+```python
+# 客户端实现
+
+# 导入一些需要的库
+from json import dumps
+from typing import Any, cast
+from typing_extensions import override
+
+# 导入 requests 库
+import requests
+
+# 导入 Client 基类与 Request 、 Response 类
+from tsugu_api_core.client import Client as _Client
+from tsugu_api_core.client import Request, Response
+
+# 实现客户端类
+class Client(_Client):
+    _session: requests.Session
+
+    @override
+    def __enter__(self) -> 'Client':
+        self._client = requests.Session()
+        self._client.trust_env = True
+        self._client.__enter__()
+        return self
+    
+    @override
+    async def __aenter__(self) -> 'Client':
+        # requests 库是一个同步请求库，但客户端需要进行异步实现。这里抛出异常来指出这个错误使用。
+        raise RuntimeError('REQUESTS client is not asynchronous, please use sync context manager')
+    
+    @override
+    def __exit__(self, *args: Any) -> None:
+        self._session.close()
+    
+    @override
+    async def __aexit__(self, *args: Any) -> None:
+        pass # 这里这个方法永远不会被使用
+
+    @override
+    def request(self, request: Request) -> Response:
+        # requests 需要一个代理字典，但 Client 类只会传入一个代理地址，这里构建这个字典。
+        # 此处实现根据用户需求不同进行不同实现。
+        proxies = {
+            'http': self.proxy,
+            'https': self.proxy,
+        }
+
+        # 此处请求实现根据用户需求不同而进行不同实现
+        # 这里列举出了 Request 类的所有可拥有属性
+        with self._session.request(
+            request.method,
+            request.url,
+            params=request.params,
+            data=cast(dict, dumps(request.data)) if request.data is not None else request.data,
+            headers=request.headers,
+            proxies=proxies if self.proxy else None,
+        ) as response:
+            # 请求后构建 Response 类并返回
+            # - content: 响应内容， bytes 类型
+            # - status_code: 状态码
+            # - exception: raise_for_status 方法抛出的错误
+            try:
+                response.raise_for_status()
+                return Response(
+                    response.content,
+                    response.status_code,
+                )
+            except Exception as exception:
+                return Response(
+                    response.content,
+                    response.status_code,
+                    exception,
+                )
+    
+    @override
+    async def arequest(self, request: Request) -> Response:
+        # requests 库是一个同步请求库，但客户端需要进行异步实现。这里抛出异常来指出这个错误使用。
+        raise RuntimeError('REQUESTS client is not asynchronous, please use sync request method.')
+```
+
+在客户端实现后，通过注册方法注册客户端。
+
+```python
+from tsugu_api_core import register_client
+
+register_client(Client)
+```
+
+随后 `tsugu-api-python` 就会在进行同步请求时优先使用自定义的基于 `requests` 请求库的客户端，而不是内置的基于 `httpx` 库的客户端。

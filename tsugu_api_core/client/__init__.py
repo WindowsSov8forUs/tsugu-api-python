@@ -10,7 +10,7 @@ from ._client import Response as Response
 
 __HTTPClient__: Optional[Type[Client]] = None
 
-def client_register(
+def register_client(
     client: Type[Client]
 ) -> None:
     '''注册一个 HTTP 客户端类，之后将会使用该客户端发送请求而不是内置客户端。

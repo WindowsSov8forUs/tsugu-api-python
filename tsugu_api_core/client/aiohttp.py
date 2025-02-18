@@ -37,7 +37,7 @@ class Client(_Client):
     
     @override
     def request(self, request: Request) -> Response:
-        raise RuntimeError('AIOHTTP client is not synchronous, please use async context manager')
+        raise RuntimeError('AIOHTTP client is not synchronous, please use async request method.')
     
     @override
     async def arequest(self, request: Request) -> Response:
