@@ -2,14 +2,11 @@
 
 向 Tsugu 后端发送请求相关模块'''
 from json import dumps
-from typing import Any, Literal, Optional, cast
-
-from aiohttp import ClientSession
-from httpx import Client, Request, Response, AsyncClient, HTTPStatusError
+from typing import Any, Literal, Optional
 
 from . import settings
-from ._typing import _ApiResponse
-from .exception import BadRequestError, FailedException
+from .client import _Client, Request, Response
+from .exception import BadRequestError, FailedException, HTTPStatusError
 
 # 向后端发送 API 请求类
 class Api:
@@ -46,7 +43,7 @@ class Api:
         *,
         params: Optional[dict[str, Any]]=None,
         data: Optional[dict[str, Any]]=None
-    ) -> _ApiResponse:
+    ) -> Response:
         '''异步请求发送
 
         参数:
@@ -63,72 +60,44 @@ class Api:
         else:
             headers = None
         
-        # 构建代理服务器字典
-        if self.proxy:
-            proxies = settings._get_proxies()
-        else:
-            proxies = None
-        
         # 发送请求并获取响应
-        if settings.client == settings.Client.HTTPX:
-            async with AsyncClient(proxies=cast(dict, proxies), timeout=settings.timeout, trust_env=False) as client:
-                # 构建一个请求体
-                request = Request(
-                    method,
-                    self.host + self.api,
-                    params=params,
-                    data=cast(dict, dumps(data)) if data is not None else data,
-                    headers=headers
-                )
-                
-                response = await client.send(request)
-        else:
-            async with ClientSession() as session:
-                response = await session.request(
-                    method,
-                    self.host + self.api,
-                    params=params,
-                    data=cast(dict, dumps(data)) if data is not None else data,
-                    headers=headers,
-                    proxy=settings.proxy if len(settings.proxy) > 0 and self.proxy else None,
-                )
+        async with _Client()(
+            proxy=settings.proxy if self.proxy and settings.proxy else None,
+            timeout=settings.timeout,
+        ) as client:
+            # 构建一个请求体
+            request = Request(
+                method,
+                self.host + self.api,
+                params=params,
+                data=data,
+                headers=headers
+            )
+            
+            response = await client.arequest(request)
         
         # 处理接收到的响应
-        if isinstance(response, Response):
-            try:
-                response.raise_for_status()
-            except HTTPStatusError as exception:
-                if exception.response.status_code == 400:
-                    _response: dict[str, Any] = exception.response.json()
-                    raise BadRequestError(self.api, _response) from exception # type: ignore
-                elif exception.response.status_code in (404, 409, 422, 500):
-                    _response: dict[str, Any] = exception.response.json()
-                    raise FailedException(self.api, exception.response.status_code, _response) from exception # type: ignore
-                else:
-                    raise exception
+        if response.status_code == 400:
+            _response: dict[str, Any] = response.json()
+            raise BadRequestError(self.api, _response) from response.exception
+        elif response.status_code in (404, 409, 422, 500):
+            _response: dict[str, Any] = response.json()
+            raise FailedException(self.api, response.status_code, _response) from response.exception
         else:
-            if response.status == 400:
-                _response: dict[str, Any] = await response.json()
-                raise BadRequestError(self.api, _response) # type: ignore
-            elif response.status in (404, 409, 422, 500):
-                _response: dict[str, Any] = await response.json()
-                raise FailedException(self.api, response.status, _response) # type: ignore
-            else:
-                response.raise_for_status()
-        return response
+            raise HTTPStatusError(response.status_code) from response.exception
     
-    async def apost(self, data: Optional[dict[str, Any]]=None) -> _ApiResponse:
+    async def apost(self, data: Optional[dict[str, Any]]=None) -> Response:
         '''异步发送 POST 请求
 
         参数:
             data (Optional[dict[str, Any]]): 请求的数据
 
         返回:
-            _ApiResponse: 收到的响应
+            Response: 收到的响应
         '''
         return await self._arequest('post', data=data)
     
-    async def aget(self, params: Optional[dict[str, Any]]=None) -> _ApiResponse:
+    async def aget(self, params: Optional[dict[str, Any]]=None) -> Response:
         '''异步发送 GET 请求
 
         参数:
@@ -168,33 +137,26 @@ class Api:
             method,
             self.host + self.api,
             params=params,
-            data=cast(dict, dumps(data)) if data is not None else data,
+            data=data,
             headers=headers
         )
         
-        # 构建代理服务器字典
-        if self.proxy:
-            proxies = settings._get_proxies()
-        else:
-            proxies = None
-        
         # 发送请求并获取响应
-        with Client(proxies=cast(dict, proxies), timeout=settings.timeout, trust_env=False) as client:
-            response = client.send(request)
+        with _Client()(
+            proxy=settings.proxy if self.proxy and settings.proxy else None,
+            timeout=settings.timeout,
+        ) as client:
+            response = client.request(request)
         
         # 处理接收到的响应
-        try:
-            response.raise_for_status()
-        except HTTPStatusError as exception:
-            if exception.response.status_code == 400:
-                _response: dict[str, Any] = exception.response.json()
-                raise BadRequestError(self.api, _response) from exception # type: ignore
-            elif exception.response.status_code in (409, 422, 500):
-                _response: dict[str, Any] = exception.response.json()
-                raise FailedException(self.api, exception.response.status_code, _response) from exception # type: ignore
-            else:
-                raise exception
-        return response
+        if response.status_code == 400:
+            _response: dict[str, Any] = response.json()
+            raise BadRequestError(self.api, _response) from response.exception
+        elif response.status_code in (409, 422, 500):
+            _response: dict[str, Any] = response.json()
+            raise FailedException(self.api, response.status_code, _response) from response.exception
+        else:
+            raise HTTPStatusError(response.status_code) from response.exception
     
     def post(self, data: Optional[dict[str, Any]]=None) -> Response:
         '''发送 POST 请求

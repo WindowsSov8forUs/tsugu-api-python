@@ -1,5 +1,6 @@
 '''内置的 AIOHTTP 适配'''
 
+from json import dumps
 from typing import Any, cast
 from typing_extensions import override
 
@@ -44,11 +45,19 @@ class Client(_Client):
             request.method,
             request.url,
             params=request.params,
-            data=request.data,
+            data=cast(dict, dumps(request.data)) if request.data is not None else request.data,
             headers=request.headers,
             proxy=self.proxy,
         ) as response:
-            return Response(
-                await response.read(),
-                response.status,
-            )
+            try:
+                response.raise_for_status()
+                return Response(
+                    await response.read(),
+                    response.status,
+                )
+            except Exception as exception:
+                return Response(
+                    await response.read(),
+                    response.status,
+                    exception,
+                )

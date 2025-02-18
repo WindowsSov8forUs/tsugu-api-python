@@ -12,6 +12,16 @@ class TsuguException(Exception):
     def __str__(self) -> str:
         return self.msg
 
+class HTTPStatusError(TsuguException):
+    '''HTTP 状态码错误'''
+    status_code: int
+    '''HTTP 状态码'''
+    def __init__(self, status_code: int) -> None:
+        '''初始化'''
+        self.status_code = status_code
+        super().__init__(f"HTTP status code error: {status_code}, please check your network environment or contact the developer.")
+        return
+
 class BadRequestError(TsuguException):
     '''请求的参数错误'''
     api: str

@@ -4,11 +4,9 @@
 from json import dumps
 from typing import Any, Literal, Optional, cast
 
-from aiohttp import ClientSession
-from httpx import Client, Request, Response, AsyncClient, HTTPStatusError
-
 from tsugu_api_core import settings
-from tsugu_api_core._typing import _ApiResponse
+from tsugu_api_core.exception import HTTPStatusError
+from tsugu_api_core.client import _Client, Request, Response
 
 BANDORI_STATION_URL = 'https://api.bandoristation.com/'
 
@@ -41,7 +39,7 @@ class Api:
         *,
         params: Optional[dict[str, Any]]=None,
         data: Optional[dict[str, Any]]=None
-    ) -> _ApiResponse:
+    ) -> Response:
         '''异步请求发送
 
         参数:
@@ -58,60 +56,36 @@ class Api:
         else:
             headers = None
         
-        # 构建代理服务器字典
-        if self.proxy:
-            proxies = settings._get_proxies()
-        else:
-            proxies = None
-        
         # 发送请求并获取响应
-        if settings.client == settings.Client.HTTPX:
-            async with AsyncClient(proxies=cast(dict, proxies), timeout=settings.timeout, trust_env=False) as client:
-                # 构建一个请求体
-                request = Request(
-                    method,
-                    BANDORI_STATION_URL,
-                    params=params,
-                    data=cast(dict, dumps(data)) if data is not None else data,
-                    headers=headers
-                )
-                
-                response = await client.send(request)
-        else:
-            async with ClientSession() as session:
-                response = await session.request(
-                    method,
-                    BANDORI_STATION_URL,
-                    params=params,
-                    data=cast(dict, dumps(data)) if data is not None else data,
-                    headers=headers,
-                    proxy=settings.proxy if len(settings.proxy) > 0 and self.proxy else None,
-                )
+        async with _Client()(
+            proxy=settings.proxy if self.proxy and settings.proxy else None,
+            timeout=settings.timeout,
+        ) as client:
+            # 构建一个请求体
+            request = Request(
+                method,
+                BANDORI_STATION_URL,
+                params=params,
+                data=cast(dict, dumps(data)) if data is not None else data,
+                headers=headers
+            )
+            
+            response = await client.arequest(request)
         
         # 处理接收到的响应
-        if isinstance(response, Response):
-            try:
-                response.raise_for_status()
-            except HTTPStatusError as exception:
-                if exception.response.status_code == 400:
-                    return response
-                else:
-                    raise exception
+        if response.status_code == 400:
+            return response
         else:
-            if response.status == 400:
-                return response
-            else:
-                response.raise_for_status()
-        return response
+            raise HTTPStatusError(response.status_code) from response.exception
     
-    async def aget(self, params: Optional[dict[str, Any]]=None) -> _ApiResponse:
+    async def aget(self, params: Optional[dict[str, Any]]=None) -> Response:
         '''异步发送 GET 请求
 
         参数:
             params (Optional[dict[str, Any]]): 请求的参数
 
         返回:
-            _ApiResponse: 收到的响应
+            Response: 收到的响应
         '''
         if params is None:
             params = {
@@ -145,15 +119,6 @@ class Api:
         else:
             headers = None
         
-        # 构建一个请求体
-        request = Request(
-            method,
-            BANDORI_STATION_URL,
-            params=params,
-            data=cast(dict, dumps(data)) if data is not None else data,
-            headers=headers
-        )
-        
         # 构建代理服务器字典
         if self.proxy:
             proxies = settings._get_proxies()
@@ -161,18 +126,27 @@ class Api:
             proxies = None
         
         # 发送请求并获取响应
-        with Client(proxies=cast(dict, proxies), timeout=settings.timeout, trust_env=False) as client:
-            response = client.send(request)
+        with _Client()(
+            proxy=settings.proxy if self.proxy and settings.proxy else None,
+            timeout=settings.timeout,
+        ) as client:
+        # 构建一个请求体
+        
+            request = Request(
+                method,
+                BANDORI_STATION_URL,
+                params=params,
+                data=cast(dict, dumps(data)) if data is not None else data,
+                headers=headers
+            )
+            
+            response = client.request(request)
         
         # 处理接收到的响应
-        try:
-            response.raise_for_status()
-        except HTTPStatusError as exception:
-            if exception.response.status_code == 400:
-                return response
-            else:
-                raise exception
-        return response
+        if response.status_code == 400:
+            return response
+        else:
+            raise HTTPStatusError(response.status_code) from response.exception
     
     def get(self, params: Optional[dict[str, Any]]=None) -> Response:
         '''发送 GET 请求

@@ -30,11 +30,13 @@ class Request:
 class Response:
     '''HTTP 响应类'''
     
-    def __init__(self, content: bytes, status_code: int) -> None:
+    def __init__(self, content: bytes, status_code: int, exception: Optional[Exception]=None) -> None:
         self.content = content
         '''响应内容'''
         self.status_code = status_code
         '''状态码'''
+        self.exception = exception
+        '''异常'''
     
     def json(self, **kwargs: Any) -> dict:
         '''解析 JSON 响应内容'''

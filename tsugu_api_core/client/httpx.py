@@ -1,5 +1,6 @@
 '''内置的 HTTPX 客户端适配'''
 
+from json import dumps
 from typing import Any, cast
 from typing_extensions import override
 
@@ -82,7 +83,7 @@ class Client(_Client):
             request.method,
             request.url,
             params=request.params,
-            data=request.data,
+            data=cast(dict, dumps(request.data)) if request.data is not None else request.data,
             headers=request.headers,
         )
         
@@ -99,6 +100,7 @@ class Client(_Client):
             return Response(
                 exception.response.content,
                 exception.response.status_code,
+                exception,
             )
     
     @override
@@ -107,7 +109,7 @@ class Client(_Client):
             request.method,
             request.url,
             params=request.params,
-            data=request.data,
+            data=cast(dict, dumps(request.data)) if request.data is not None else request.data,
             headers=request.headers,
         )
         
@@ -124,4 +126,5 @@ class Client(_Client):
             return Response(
                 exception.response.content,
                 exception.response.status_code,
+                exception,
             )
