@@ -1,7 +1,6 @@
 '''对 tsugu_api 进行配置'''
 
 from enum import Enum
-from typing import Optional
 
 class Client(str, Enum):
     HTTPX = 'httpx'
@@ -12,7 +11,7 @@ class Client(str, Enum):
 client: Client = Client.HTTPX
 '''使用的 HTTP 客户端'''
 
-timeout: int = 10
+timeout: float = 10
 '''请求超时时间'''
 
 proxy: str = ''
@@ -63,16 +62,6 @@ compress: bool = True
 
 默认为 True，即压缩返回数据。若不压缩返回数据，可将此项设置为 False。
 '''
-
-def _get_proxies() -> Optional[dict[str, str]]:
-    global proxy
-    
-    if proxy == '':
-        return None
-    return {
-        'http://': proxy,
-        'https://': proxy
-    }
 
 __all__ = [
     'timeout',

@@ -23,7 +23,11 @@ class Client(_Client):
     
     @override
     async def __aenter__(self) -> 'Client':
-        self._client_session = aiohttp.ClientSession()
+        self._client_session = aiohttp.ClientSession(
+            trust_env=False,
+            timeout=aiohttp.ClientTimeout(total=self.timeout),
+            proxy=self.proxy,
+        )
         await self._client_session.__aenter__()
         return self
     
@@ -47,7 +51,6 @@ class Client(_Client):
             params=request.params,
             data=cast(dict, dumps(request.data)) if request.data is not None else request.data,
             headers=request.headers,
-            proxy=self.proxy,
         ) as response:
             try:
                 response.raise_for_status()
