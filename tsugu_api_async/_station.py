@@ -1,8 +1,6 @@
 from time import time
 from typing import Optional
 
-from httpx import Response
-
 from tsugu_api_core import settings
 from tsugu_api_core._network import Api
 from tsugu_api_core._typing import (
@@ -49,13 +47,11 @@ async def station_submit_room_number(
         data['bandoriStationToken'] = bandori_station_token
     
     # 发送请求
-    resonse = await Api(
+    return (await Api(
         settings.userdata_backend_url,
         '/station/submitRoomNumber',
         proxy=settings.userdata_backend_proxy
-    ).apost(data)
-    if isinstance(resonse, Response): return resonse.json()
-    return await resonse.json()
+    ).apost(data)).json()
 
 async def station_query_all_room() -> _QueryResponse:
     '''查询最近车站车牌
@@ -65,10 +61,8 @@ async def station_query_all_room() -> _QueryResponse:
     '''
     
     # 发送请求
-    response = await Api(
+    return (await Api(
         settings.userdata_backend_url,
         '/station/queryAllRoom',
         proxy=settings.userdata_backend_proxy
-    ).aget()
-    if isinstance(response, Response): return response.json()
-    return await response.json()
+    ).aget()).json()

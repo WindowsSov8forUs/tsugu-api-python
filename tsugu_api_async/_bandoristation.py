@@ -1,7 +1,5 @@
 from typing import List
 
-from httpx import Response
-
 from tsugu_api_core import settings
 from tsugu_api_core.bandoristation._network import Api
 from tsugu_api_core.bandoristation._typing import StationRoom
@@ -31,12 +29,10 @@ async def submit_room_number(number: int, user_id: str, raw_message: str, source
     }
     
     # 发送请求
-    response = await Api(
-            'submit_room_number',
-            proxy=settings.backend_proxy
-    ).aget(params)
-    if isinstance(response, Response): response = response.json()
-    else: response = await response.json()
+    response = (await Api(
+        'submit_room_number',
+        proxy=settings.backend_proxy
+    ).aget(params)).json()
     if response['status'] == 'failure':
         raise RoomSubmitFailure(response['response'])
 
@@ -44,16 +40,14 @@ async def query_room_number() -> List[StationRoom]:
     '''获取房间号
 
     返回:
-        List[_StationRoom]: 房间信息列表
+        List[StationRoom]: 房间信息列表
     '''
     
     # 发送请求
-    response = await Api(
+    response = (await Api(
         'query_room_number',
         proxy=settings.backend_proxy
-    ).aget()
-    if isinstance(response, Response): response = response.json()
-    else: response = await response.json()
+    ).aget()).json()
     if response['status'] == 'failure':
         raise RoomQueryFailure(response['response'])
     return response['response']

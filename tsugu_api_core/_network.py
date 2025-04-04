@@ -77,12 +77,14 @@ class Api:
             response = await client.arequest(request)
         
         # 处理接收到的响应
+        if response.status_code == 200:
+            return response
         if response.status_code == 400:
             _response: dict[str, Any] = response.json()
-            raise BadRequestError(self.api, _response) from response.exception
+            raise BadRequestError(self.api, _response) from response.exception # type: ignore
         elif response.status_code in (404, 409, 422, 500):
             _response: dict[str, Any] = response.json()
-            raise FailedException(self.api, response.status_code, _response) from response.exception
+            raise FailedException(self.api, response.status_code, _response) from response.exception # type: ignore
         else:
             raise HTTPStatusError(response.status_code) from response.exception
     
@@ -149,12 +151,14 @@ class Api:
             response = client.request(request)
         
         # 处理接收到的响应
+        if response.status_code == 200:
+            return response
         if response.status_code == 400:
             _response: dict[str, Any] = response.json()
-            raise BadRequestError(self.api, _response) from response.exception
+            raise BadRequestError(self.api, _response) from response.exception # type: ignore
         elif response.status_code in (409, 422, 500):
             _response: dict[str, Any] = response.json()
-            raise FailedException(self.api, response.status_code, _response) from response.exception
+            raise FailedException(self.api, response.status_code, _response) from response.exception # type: ignore
         else:
             raise HTTPStatusError(response.status_code) from response.exception
     

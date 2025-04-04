@@ -1,5 +1,3 @@
-from httpx import Response
-
 from tsugu_api_core import settings
 from tsugu_api_core._network import Api
 from tsugu_api_core._typing import (
@@ -30,13 +28,11 @@ async def get_user_data(platform: str, user_id: str) -> _GetUserDataResponse:
     }
     
     # 发送请求
-    response = await Api(
+    return (await Api(
         settings.userdata_backend_url,
         '/user/getUserData',
         proxy=settings.userdata_backend_proxy
-    ).apost(data)
-    if isinstance(response, Response): return response.json()
-    return await response.json()
+    ).apost(data)).json()
 
 async def change_user_data(platform: str, user_id: str, update: PartialTsuguUser) -> _ChangeUserDataResponse:
     '''修改用户数据
@@ -58,13 +54,11 @@ async def change_user_data(platform: str, user_id: str, update: PartialTsuguUser
     }
     
     # 发送请求
-    response = await Api(
+    return (await Api(
         settings.userdata_backend_url,
         '/user/changeUserData',
         proxy=settings.userdata_backend_proxy
-    ).apost(data)
-    if isinstance(response, Response): return response.json()
-    return await response.json()
+    ).apost(data)).json()
 
 async def bind_player_request(
     platform: str,
@@ -87,13 +81,11 @@ async def bind_player_request(
     }
     
     # 发送请求
-    response = await Api(
+    return (await Api(
         settings.userdata_backend_url,
         '/user/bindPlayerRequest',
-        proxy=settings.userdata_backend_proxy
-    ).apost(data)
-    if isinstance(response, Response): return response.json()
-    return await response.json()
+        proxy=settings.userdata_backend_proxy,
+    ).apost(data)).json()
 
 async def bind_player_verification(
     platform: str,
@@ -125,10 +117,8 @@ async def bind_player_verification(
     }
     
     # 发送请求
-    response = await Api(
+    return (await Api(
         settings.userdata_backend_url,
         '/user/bindPlayerVerification',
         proxy=settings.userdata_backend_proxy
-    ).apost(data)
-    if isinstance(response, Response): return response.json()
-    return await response.json()
+    ).apost(data)).json()
