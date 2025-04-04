@@ -4,3 +4,4 @@ test.py
 /tsugu_api_python.egg-info/
 /build/
 /dist/
+/.venv/
