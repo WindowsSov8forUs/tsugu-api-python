@@ -105,13 +105,22 @@ class Client(_Client):
     
     @override
     async def arequest(self, request: Request) -> Response:
-        _request = httpx.Request(
-            request.method,
-            request.url,
-            params=request.params,
-            data=cast(dict, dumps(request.data)) if request.data is not None else request.data,
-            headers=request.headers,
-        )
+        if __HTTPX_ABOVE_0_28_0__:
+            _request = httpx.Request(
+                request.method,
+                request.url,
+                params=request.params,
+                content=cast(dict, dumps(request.data)) if request.data is not None else request.data,
+                headers=request.headers,
+            )
+        else:
+            _request = httpx.Request(
+                request.method,
+                request.url,
+                params=request.params,
+                data=cast(dict, dumps(request.data)) if request.data is not None else request.data,
+                headers=request.headers,
+            )
         
         _response = await self._async_client.send(_request)
         
