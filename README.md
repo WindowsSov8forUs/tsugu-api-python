@@ -55,7 +55,7 @@ _✨ Python 编写的 [TsuguBanGDreamBot](https://github.com/Yamamoto-2/tsugu-ba
 |获取活动试炼舞台信息|`event_stage`|
 |模拟指定卡池抽卡结果|`gacha_simulate`|
 |获取卡面图片|`get_card_illustration`|
-|查询指定活动指定档位相关的历史预测线|`lsycx`|
+|查询指定活动指定档位相关的历史预测线|`lsycx(deprecated)`/`cutoff_list_of_recent_event`|
 |获取指定车牌列表的图片形式|`room_list`|
 |查询符合条件的卡牌|`search_card`|
 |查询符合条件的角色信息|`search_character`|
@@ -65,8 +65,8 @@ _✨ Python 编写的 [TsuguBanGDreamBot](https://github.com/Yamamoto-2/tsugu-ba
 |查询符合条件的歌曲信息|`search_song`|
 |查询指定歌曲指定难度的谱面|`song_chart`|
 |查询歌曲分数表|`song_meta`|
-|查询指定活动的指定档位预测线|`ycx`|
-|查询指定活动的全部档位预测线|`ycx_all`|
+|查询指定活动的指定档位预测线|`ycx(deprecated)`/`cutoff_detail`|
+|查询指定活动的全部档位预测线|`ycx_all(deprecated)`/`cutoff_all`|
 
 #### 车站数据后端功能
 
