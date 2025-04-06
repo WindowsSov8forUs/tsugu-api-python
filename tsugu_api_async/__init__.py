@@ -36,4 +36,4 @@ from ._station import station_submit_room_number as station_submit_room_number
 from ._bandoristation import query_room_number as query_room_number
 from ._bandoristation import submit_room_number as submit_room_number
 
-from tsugu_api_core import settings as settings
+from tsugu_api_core._settings import settings as settings

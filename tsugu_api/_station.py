@@ -1,8 +1,8 @@
 from time import time
 from typing import Optional
 
-from tsugu_api_core import settings
 from tsugu_api_core._network import Api
+from tsugu_api_core._settings import settings
 from tsugu_api_core._typing import (
     _QueryResponse,
     _SubmitResponse

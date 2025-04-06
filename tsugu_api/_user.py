@@ -1,5 +1,6 @@
-from tsugu_api_core import settings
+
 from tsugu_api_core._network import Api
+from tsugu_api_core._settings import settings
 from tsugu_api_core._typing import (
     ServerId,
     _BindingAction,

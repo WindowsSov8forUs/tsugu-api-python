@@ -2,7 +2,7 @@
 
 from typing import Type, Optional
 
-from tsugu_api_core import settings
+from tsugu_api_core._settings import settings
 
 from ._client import Client as Client
 from ._client import Request as Request

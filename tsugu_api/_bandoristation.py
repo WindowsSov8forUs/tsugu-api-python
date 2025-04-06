@@ -1,6 +1,6 @@
 from typing import List
 
-from tsugu_api_core import settings
+from tsugu_api_core._settings import settings
 from tsugu_api_core._typing import StationRoom
 from tsugu_api_core._network import BANDORI_STATION_URL, Api
 from tsugu_api_core.exception import (

@@ -3,7 +3,7 @@
 向 Tsugu 后端发送请求相关模块'''
 from typing import Any, Literal, Optional
 
-from . import settings
+from ._settings import settings
 from .client import _Client, Request, Response
 from .exception import BadRequestError, FailedException, HTTPStatusError
 
