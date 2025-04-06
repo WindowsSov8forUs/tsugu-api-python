@@ -2,11 +2,11 @@
 `tsugu_api_core.utils` Tsugu API 工具模块
 '''
 
-from tsugu_api_core.bandoristation._typing import StationRoom
 from tsugu_api_core._typing import (
     _Room,
     ServerId,
-    ServerName
+    ServerName,
+    StationRoom,
 )
 
 def string_to_server_code(server: str) -> ServerId:
