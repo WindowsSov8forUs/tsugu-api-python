@@ -1,9 +1,9 @@
 from typing import List
 
 from tsugu_api_core import settings
-from tsugu_api_core.bandoristation._network import Api
-from tsugu_api_core.bandoristation._typing import StationRoom
-from tsugu_api_core.bandoristation.exception import (
+from tsugu_api_core._typing import StationRoom
+from tsugu_api_core._network import BANDORI_STATION_URL, Api
+from tsugu_api_core.exception import (
     RoomQueryFailure,
     RoomSubmitFailure
 )
@@ -30,6 +30,7 @@ async def submit_room_number(number: int, user_id: str, raw_message: str, source
     
     # 发送请求
     response = (await Api(
+        BANDORI_STATION_URL,
         'submit_room_number',
         proxy=settings.backend_proxy
     ).aget(params)).json()
@@ -45,6 +46,7 @@ async def query_room_number() -> List[StationRoom]:
     
     # 发送请求
     response = (await Api(
+        BANDORI_STATION_URL,
         'query_room_number',
         proxy=settings.backend_proxy
     ).aget()).json()

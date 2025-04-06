@@ -7,6 +7,8 @@ from . import settings
 from .client import _Client, Request, Response
 from .exception import BadRequestError, FailedException, HTTPStatusError
 
+BANDORI_STATION_URL = 'https://api.bandoristation.com/'
+
 # 向后端发送 API 请求类
 class Api:
     '''向后端发送 API 请求类
@@ -80,6 +82,8 @@ class Api:
         if response.status_code == 200:
             return response
         if response.status_code == 400:
+            if self.host == BANDORI_STATION_URL:
+                return response
             _response: dict[str, Any] = response.json()
             raise BadRequestError(self.api, _response) from response.exception # type: ignore
         elif response.status_code in (404, 409, 422, 500):
@@ -155,6 +159,8 @@ class Api:
         if response.status_code == 200:
             return response
         if response.status_code == 400:
+            if self.host == BANDORI_STATION_URL:
+                return response
             _response: dict[str, Any] = response.json()
             raise BadRequestError(self.api, _response) from response.exception # type: ignore
         elif response.status_code in (409, 422, 500):
