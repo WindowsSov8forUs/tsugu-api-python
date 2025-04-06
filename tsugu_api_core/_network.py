@@ -63,6 +63,7 @@ class Api:
         async with _Client()(
             proxy=settings.proxy if self.proxy and settings.proxy else None,
             timeout=settings.timeout,
+            max_retries=settings.max_retries,
         ) as client:
             # 构建一个请求体
             request = Request(
@@ -146,6 +147,7 @@ class Api:
         with _Client()(
             proxy=settings.proxy if self.proxy and settings.proxy else None,
             timeout=settings.timeout,
+            max_retries=settings.max_retries,
         ) as client:
             response = client.request(request)
         

@@ -45,11 +45,13 @@ class Response:
 class Client(ABC):
     '''HTTP 客户端类型基类'''
     
-    def __init__(self, proxy: Optional[str], timeout: float) -> None:
+    def __init__(self, proxy: Optional[str], timeout: float, max_retries: int) -> None:
         self.proxy = proxy
         '''代理服务器地址'''
         self.timeout = timeout
         '''超时时间'''
+        self.max_retries = max_retries
+        '''重试次数'''
     
     @abstractmethod
     def __enter__(self) -> Self:

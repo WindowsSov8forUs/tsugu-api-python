@@ -17,6 +17,12 @@ class Settings:
     timeout: float = 10
     '''请求超时时间'''
 
+    retry: bool = True
+    '''是否开启请求重试'''
+
+    max_retries: int = 3
+    '''请求重试次数'''
+
     proxy: str = ''
     '''代理地址'''
 
