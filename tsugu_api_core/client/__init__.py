@@ -32,11 +32,11 @@ def _Client() -> Type[Client]:
     if __HTTPClient__ is not None:
         return __HTTPClient__
     
-    if settings.client == settings.Client.HTTPX:
+    if settings.client.lower() == 'httpx':
         from .httpx import Client as HTTPXClient
         __HTTPClient__ = HTTPXClient
         return __HTTPClient__
-    elif settings.client == settings.Client.AIO_HTTP:
+    elif settings.client.lower() == 'aiohttp':
         from .aiohttp import Client as AIOHTTPClient
         __HTTPClient__ = AIOHTTPClient
         return __HTTPClient__

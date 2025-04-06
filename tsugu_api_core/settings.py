@@ -2,16 +2,10 @@
 
 from enum import Enum
 
-class Client(str, Enum):
-    HTTPX = 'httpx'
-    '''使用 `httpx`'''
-    AIO_HTTP = 'aiohttp'
-    '''使用 `aiohttp`'''
-
 class Settings:
     '''tsugu_api 配置类'''
 
-    client: Client = Client.HTTPX
+    client: str = 'httpx'
     '''使用的 HTTP 客户端'''
 
     timeout: float = 10
