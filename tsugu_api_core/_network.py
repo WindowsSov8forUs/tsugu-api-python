@@ -1,7 +1,6 @@
 '''`tsugu_api_async._network`
 
 向 Tsugu 后端发送请求相关模块'''
-from json import dumps
 from typing import Any, Literal, Optional
 
 from . import settings
