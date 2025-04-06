@@ -45,7 +45,7 @@ class Response:
 class Client(ABC):
     '''HTTP 客户端类型基类'''
     
-    def __init__(self, proxy: Optional[str], timeout: int) -> None:
+    def __init__(self, proxy: Optional[str], timeout: float) -> None:
         self.proxy = proxy
         '''代理服务器地址'''
         self.timeout = timeout
