@@ -1,5 +1,6 @@
 '''内置的 AIOHTTP 适配'''
 
+import asyncio
 from json import dumps
 from typing import Any, cast
 from typing_extensions import override
@@ -45,22 +46,33 @@ class Client(_Client):
     
     @override
     async def arequest(self, request: Request) -> Response:
-        async with self._client_session.request(
-            request.method,
-            request.url,
-            params=request.params,
-            data=cast(dict, dumps(request.data)) if request.data is not None else request.data,
-            headers=request.headers,
-        ) as response:
+        retries = 0
+        
+        while True:
             try:
-                response.raise_for_status()
-                return Response(
-                    await response.read(),
-                    response.status,
+                response = await self._client_session.request(
+                    request.method,
+                    request.url,
+                    params=request.params,
+                    data=cast(dict, dumps(request.data)) if request.data is not None else request.data,
+                    headers=request.headers,
                 )
+                break
             except Exception as exception:
-                return Response(
-                    await response.read(),
-                    response.status,
-                    exception,
-                )
+                if retries >= self.max_retries:
+                    raise exception
+                retries += 1
+                await asyncio.sleep(0.5)
+        
+        try:
+            response.raise_for_status()
+            return Response(
+                await response.read(),
+                response.status,
+            )
+        except Exception as exception:
+            return Response(
+                await response.read(),
+                response.status,
+                exception,
+            )

@@ -1,5 +1,7 @@
 '''内置的 HTTPX 客户端适配'''
 
+import time
+import asyncio
 from json import dumps
 from typing import Any, cast
 from typing_extensions import override
@@ -87,7 +89,16 @@ class Client(_Client):
             headers=request.headers,
         )
         
-        _response = self._client.send(_request)
+        retries = 0
+        while True:
+            try:
+                _response = self._client.send(_request)
+                break
+            except Exception as exception:
+                if retries >= self.max_retries:
+                    raise exception
+                retries += 1
+                time.sleep(0.5)
         
         # 处理响应
         try:
@@ -122,7 +133,16 @@ class Client(_Client):
                 headers=request.headers,
             )
         
-        _response = await self._async_client.send(_request)
+        retries = 0
+        while True:
+            try:
+                _response = await self._async_client.send(_request)
+                break
+            except Exception as exception:
+                if retries >= self.max_retries:
+                    raise exception
+                retries += 1
+                await asyncio.sleep(0.5)
         
         # 处理响应
         try:
