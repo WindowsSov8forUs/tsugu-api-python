@@ -1,6 +1,6 @@
 <div align="center">
 
-![tsugu-api-ython logo](https://github.com/WindowsSov8forUs/tsugu-api-python/blob/main/logo.png)
+![tsugu-api-python logo](https://raw.githubusercontent.com/WindowsSov8forUs/tsugu-api-python/refs/heads/main/logo.png)
 
 # tsugu-api-python
 
