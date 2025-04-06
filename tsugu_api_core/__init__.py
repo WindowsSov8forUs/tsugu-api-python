@@ -8,4 +8,4 @@ from . import exception as exception
 
 from .client import register_client as register_client
 
-from .settings import settings as settings
+from ._settings import settings as settings
