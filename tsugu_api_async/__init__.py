@@ -4,8 +4,6 @@
 
 from tsugu_api_core.utils import *
 
-import tsugu_api_core.settings as settings
-
 from ._user import get_user_data as get_user_data
 from ._user import change_user_data as change_user_data
 from ._user import bind_player_request as bind_player_request
@@ -37,3 +35,5 @@ from ._station import station_submit_room_number as station_submit_room_number
 
 from ._bandoristation import query_room_number as query_room_number
 from ._bandoristation import submit_room_number as submit_room_number
+
+from tsugu_api_core import settings as settings
