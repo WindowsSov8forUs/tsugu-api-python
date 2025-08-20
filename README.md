@@ -105,6 +105,13 @@ _✨ Python 编写的 [TsuguBanGDreamBot](https://github.com/Yamamoto-2/tsugu-ba
 $ pip3 install tsugu-api-python
 ```
 
+> 使用**可选依赖**安装可同时安装指定 HTTP 请求库
+>
+> ```bash
+> $ pip3 install tsugu-api-python[httpx] # 同时安装适配版本 httpx
+> $ pip3 install tsugu-api-python[aiohttp] # 同时安装适配版本 aiohttp
+> ```
+
 使用如下代码，获取指定歌曲信息图片：
 
 ```python
