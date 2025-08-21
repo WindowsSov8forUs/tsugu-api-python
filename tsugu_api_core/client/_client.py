@@ -2,7 +2,9 @@
 
 from json import loads
 from abc import ABC, abstractmethod
-from typing import Any, Dict, Self, Optional
+from typing import Any, Dict, Optional
+
+from typing_extensions import Self
 
 class Request:
     '''HTTP 请求类'''
