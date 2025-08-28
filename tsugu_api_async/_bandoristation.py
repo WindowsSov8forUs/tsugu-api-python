@@ -25,13 +25,14 @@ async def submit_room_number(number: int, user_id: str, raw_message: str, source
         'user_id': user_id,
         'raw_message': raw_message,
         'source': source,
-        'token': token
+        'token': token,
+        'function': 'submit_room_number'
     }
     
     # 发送请求
     response = (await Api(
         BANDORI_STATION_URL,
-        'submit_room_number',
+        '',
         proxy=settings.backend_proxy
     ).aget(params)).json()
     if response['status'] == 'failure':
@@ -47,9 +48,9 @@ async def query_room_number() -> List[StationRoom]:
     # 发送请求
     response = (await Api(
         BANDORI_STATION_URL,
-        'query_room_number',
+        '',
         proxy=settings.backend_proxy
-    ).aget()).json()
+    ).aget({'function': 'query_room_number'})).json()
     if response['status'] == 'failure':
         raise RoomQueryFailure(response['response'])
     return response['response']
