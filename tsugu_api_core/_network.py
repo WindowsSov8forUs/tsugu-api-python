@@ -7,7 +7,7 @@ from ._settings import settings
 from .client import _Client, Request, Response
 from .exception import BadRequestError, FailedException, HTTPStatusError
 
-BANDORI_STATION_URL = 'https://api.bandoristation.com/'
+BANDORI_STATION_URL = 'https://api.bandoristation.com'
 
 # 向后端发送 API 请求类
 class Api:
